@@ -386,13 +386,10 @@ const ALIGNMENT_CLASSES = new Set(['center', 'left', 'right']);
 
 const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
-// eslint-disable-next-line sonarjs/slow-regex
 const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
 
-// eslint-disable-next-line sonarjs/slow-regex
 const SPAN_TAG_RE = /\[\[([^\]]+)\]([^\]]*)\]/g;
 
-// eslint-disable-next-line sonarjs/slow-regex
 const TOOLTIP_OPEN_RE = /\[\[tooltip\]\s*$/;
 
 const NESTED_SECTION_RE = /\[#([^\]]+)\]/g;
@@ -435,7 +432,6 @@ function applySplitBoundaryPass(el) {
     const next = children.at(i + 2);
 
     const isPrevText = prev.nodeType === Node.TEXT_NODE;
-    // eslint-disable-next-line secure-coding/detect-object-injection
     const isMidInline = mid.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(mid.nodeName);
     const isNextText = next.nodeType === Node.TEXT_NODE;
 
@@ -476,9 +472,7 @@ function applySplitBoundaryPass(el) {
       }
     } else if (!isPrevText && mid.nodeType === Node.TEXT_NODE && !isNextText && next.children.length === 0) {
       // Pattern B: <inline>prefix[[</inline> "classes" <inline>]content]</inline>
-      // eslint-disable-next-line secure-coding/detect-object-injection
       const isPrevInline = prev.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(prev.nodeName);
-      // eslint-disable-next-line secure-coding/detect-object-injection
       const isNextInline = next.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(next.nodeName);
       const openerText = prev.textContent;
       const closerText = next.textContent;
@@ -603,7 +597,6 @@ function hoistAlignmentAcrossInlines(el) {
     // If the bracket expression is fully contained in this node, replaceTextNode handles it
     if (/^\[\[[^\]]+\][^\]]*\]/.test(tail)) continue; // eslint-disable-line no-continue
 
-    // eslint-disable-next-line sonarjs/slow-regex
     const classMatch = tail.match(/^\[\[([a-zA-Z0-9_,-]+)\]/);
     if (!classMatch) continue; // eslint-disable-line no-continue
 
@@ -787,7 +780,6 @@ function decorateNestedSections(main) {
  * Decorates the main element.
  * @param {Element} main The main element
  */
-// eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
   // hopefully forward compatible button decoration
   decorateIcons(main);
@@ -966,7 +958,6 @@ async function loadLazy(doc) {
  * without impacting the user experience.
  */
 function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
   const importDelayed = () => import('./delayed.js');
 
   if ('requestIdleCallback' in window) {
@@ -998,7 +989,6 @@ export async function loadPage() {
 
 // DA UE Editor support before page load
 if (window.location.hostname.includes('ue.da.live')) {
-  // eslint-disable-next-line import/no-unresolved
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
 loadPage();
