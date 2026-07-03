@@ -15,7 +15,7 @@
     "build:json:definitions": "merge-json-cli -i \"ue/models/component-definition.json\" -o \"component-definition.json\"",
     "build:json:filters": "merge-json-cli -i \"ue/models/component-filters.json\" -o \"component-filters.json\"",
     "prepare": "husky",
-    "postinstall": "patch-package && playwright install chromium",
+    "postinstall": "patch-package",
     "release": "semantic-release"
   },
   "repository": {
