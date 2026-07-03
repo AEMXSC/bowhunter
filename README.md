@@ -22,6 +22,8 @@ npm i
 ```
 
 Linting and security
+July 3 2026: This has been updated to use ESLint 10, with patch files to retrofit the Xwalk plugin.
+
 This project is using StyleLint and ESLint for Javascript. Our ESLint configuration includes 3 popular and reputable Javascript code quality and security plugins:
 
 - SonarSource eslint-plugin-sonarjs, a code quality analyzer for JavaScript and TypeScript within the Sonar ecosystem (https://github.com/SonarSource/SonarJS/blob/master/packages/jsts/src/rules/README.md#eslint-rules)
