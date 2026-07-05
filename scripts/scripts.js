@@ -1,3 +1,5 @@
+/* eslint-disable secure-coding/no-insecure-comparison
+-- this is browser-side EDS code, not Node server auth logic. Not secret material; public DOM/content metadata validation. */
 import {
   loadHeader,
   loadFooter,
@@ -27,7 +29,6 @@ const UNSAFE_OBJECT_KEYS = new Set(['__proto__', 'constructor', 'prototype']);
  * @returns {boolean}
  */
 function isSafeObjectKey(key) {
-  // eslint-disable-next-line secure-coding/no-insecure-comparison
   return typeof key === 'string' && key.length > 0
     && !UNSAFE_OBJECT_KEYS.has(key)
     && !key.startsWith('__');
