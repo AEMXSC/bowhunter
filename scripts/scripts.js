@@ -738,6 +738,7 @@ function hoistAlignmentAcrossInlines(el) {
   }
 }
 
+/* see /docs/span-tags.md */
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
     if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
@@ -750,6 +751,7 @@ export function decorateSpanTags(element) {
   cleanAttributes(element);
 }
 
+/* see /docs/nested-sections.md */
 function collectNestedSectionIds(nodes) {
   const sectionIds = new Set();
   nodes.forEach((node) => {
