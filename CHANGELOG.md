@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/aemdemos/ise-boilerplate/compare/v1.0.0...v1.1.0) (2026-07-05)
+
+
+### Features
+
+* new version of ESLint ([7797eed](https://github.com/aemdemos/ise-boilerplate/commit/7797eed065f0712ca56976133bc3f5cbd5a10eac))
+
 ## [0.2.1](https://github.com/aemdemos/ise-boilerplate/compare/v0.2.0...v0.2.1) (2026-06-19)
 
 
