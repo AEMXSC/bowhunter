@@ -306,7 +306,7 @@ export function decorateSections(main) {
     let defaultContent = false;
     // Snapshot children so moving nodes during iteration doesn't invalidate indices
     const sectionChildren = [...section.children].slice(0, MAX_SECTION_CHILDREN);
-    for (const e of sectionChildren) {
+    sectionChildren.forEach((e) => {
       // from the da boilerplate
       if (e.classList.contains('richtext')) {
         e.removeAttribute('class');
@@ -323,7 +323,7 @@ export function decorateSections(main) {
         if (defaultContent) wrapper.classList.add('default-content-wrapper');
       }
       wrappers.at(-1)?.append(e);
-    }
+    });
 
     // Add wrapped content back
     wrappers.forEach((wrapper) => section.append(wrapper));
@@ -388,7 +388,7 @@ const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
 
 const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
 
-const SPAN_TAG_RE = /\[\[([^\]]+)\]([^\]]*)\]/g;
+const SPAN_TAG_RE = /\[\[(?=([^\]]+))\1\](?=([^\]]*))\2\]/g;
 
 const TOOLTIP_OPEN_RE = /\[\[tooltip\]\s*$/;
 
@@ -619,6 +619,7 @@ function hoistAlignmentAcrossInlines(el) {
   }
 }
 
+/* see /docs/span-tags.md */
 export function decorateSpanTags(element) {
   element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
     if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
@@ -631,6 +632,7 @@ export function decorateSpanTags(element) {
   cleanAttributes(element);
 }
 
+/* see /docs/nested-sections.md */
 function collectNestedSectionIds(nodes) {
   const sectionIds = new Set();
   nodes.forEach((node) => {

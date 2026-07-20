@@ -1,4 +1,5 @@
 /**
+ * See /docs/cell-class.md
  * Reads single-bracket syntax from the first child of each block cell div.
  * If a cell's first child is <p><code>[classname]</code></p>, the class name
  * is added to the cell div and the <p> is removed.
