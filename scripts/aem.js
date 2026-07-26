@@ -507,12 +507,13 @@ function decorateIcons(element, prefix = '') {
   });
 }
 
-/* decorateSections moved to scripts.js */
+/* ==== decorateSections moved to scripts.js ==== */
 
 /**
  * Decorates all sections in a container element.
  * @param {Element} main The container element
  */
+/*
 function decorateSections(main) {
   const sectionEls = main.querySelectorAll(':scope > div:not([data-section-status])');
   [...sectionEls].slice(0, MAX_LOOP_ITERATIONS.sections).forEach((section) => {
@@ -534,7 +535,7 @@ function decorateSections(main) {
 
     // Process section metadata - removed via https://github.com/adobe/aem-boilerplate/commit/fe407aa5d06b4b386448ec75a227faa6780dff5b
   });
-}
+} */
 
 /**
  * Builds a block DOM Element from a two dimensional array, string, or object
@@ -722,7 +723,7 @@ export {
   decorateBlock,
   decorateBlocks,
   decorateIcons,
-  decorateSections,
+ // decorateSections,
   decorateTemplateAndTheme,
   getMetadata,
   loadBlock,

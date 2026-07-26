@@ -5,15 +5,14 @@
  */
 
 import { ensureDOMPurify } from '../../scripts/scripts.js';
-import { DOMPURIFY } from '../../scripts/aem.js';
-import { getYoutubeEmbedHtml, getVimeoEmbedHtml } from '../../scripts/utils.js';
+import { getYoutubeEmbedHtml, getVimeoEmbedHtml, EMBED_DOMPURIFY } from '../../scripts/utils.js';
 
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 async function htmlToElement(html) {
   await ensureDOMPurify();
   const temp = document.createElement('div');
-  temp.innerHTML = window.DOMPurify.sanitize(html, DOMPURIFY);
+  temp.innerHTML = window.DOMPurify.sanitize(html, EMBED_DOMPURIFY);
   return temp.firstElementChild;
 }
 

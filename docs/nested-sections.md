@@ -76,19 +76,22 @@ The same `[#section-id]` placeholder can be used multiple times on the page — 
 
 ### 2.1 Where the code lives
 
-The system is implemented in the `/* === BRACKET TAGS === */` section of `scripts/scripts.js`, alongside the [span-tags](span-tags.md) implementation. The entry point, `decorateNestedSections(main)`, is not exported — it is only invoked internally.
+The system is implemented in `scripts/feature-flags/sections.js`, alongside the section background-decoration helpers. `decorateNestedSections(main)` is exported for use by `scripts/scripts.js`.
 
 ### 2.2 How it is invoked
 
-Called from `decorateMain()`, after sections and blocks have already been decorated:
+Called from `decorateMain()` in `scripts/scripts.js`, after sections and blocks have already been decorated. The call is gated by the `nestedSections` flag in `scripts/feature-flags/features.js` — set it to `false` to skip this pass entirely for projects that don't use the `[#section-id]` syntax:
 
 ```javascript
 // scripts/scripts.js
+import { decorateNestedSections } from './feature-flags/sections.js';
+import FEATURES from './feature-flags/features.js';
+
 export function decorateMain(main) {
   // ...
   decorateSections(main);
   decorateBlocks(main);
-  decorateNestedSections(main);
+  if (FEATURES.nestedSections) decorateNestedSections(main);
   // ...
 }
 ```

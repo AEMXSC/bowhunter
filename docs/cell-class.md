@@ -90,3 +90,5 @@ Reference implementation: `blocks/columns/columns.js`.
 ```
 
 It makes no assumptions about the number of rows or columns, and is safe to call on blocks with no matching cells.
+
+## Also see /docs/span-tags.md for applying this bracket tag system on an element
