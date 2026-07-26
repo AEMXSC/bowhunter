@@ -4,7 +4,7 @@
  * https://www.hlx.live/developer/block-collection/embed
  */
 import { DOMPURIFY } from '../../scripts/aem.js';
-import { getYoutubeEmbedHtml, getVimeoEmbedHtml } from '../../scripts/utils.js';
+import { getYoutubeEmbedHtml, getVimeoEmbedHtml, EMBED_DOMPURIFY } from '../../scripts/utils.js';
 
 const loadScript = (url, callback, type) => {
   const head = document.querySelector('head');
@@ -57,12 +57,12 @@ const loadEmbed = (block, link, autoplay) => {
   const url = new URL(link);
   if (config) {
     const embedHtml = config.embed(url, autoplay);
-    block.innerHTML = (window.DOMPurify?.sanitize(embedHtml, DOMPURIFY))
+    block.innerHTML = (window.DOMPurify?.sanitize(embedHtml, EMBED_DOMPURIFY))
       ?? embedHtml;
     block.classList = `block embed embed-${config.match[0]}`;
   } else {
     const defaultHtml = getDefaultEmbed(url);
-    block.innerHTML = (window.DOMPurify?.sanitize(defaultHtml, DOMPURIFY))
+    block.innerHTML = (window.DOMPurify?.sanitize(defaultHtml, EMBED_DOMPURIFY))
       ?? defaultHtml;
     block.classList = 'block embed';
   }

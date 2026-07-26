@@ -4,19 +4,27 @@ import {
   loadHeader,
   loadFooter,
   decorateIcons,
+  decorateBlock,
   decorateBlocks,
   decorateTemplateAndTheme,
   getMetadata,
   waitForFirstImage,
+  loadBlock,
   loadSection,
   loadSections,
   loadCSS,
   readBlockConfig,
   toClassName,
   loadScript,
+  buildBlock,
 } from './aem.js';
+import { applySectionBackgroundDecorations, decorateNestedSections } from './feature-flags/sections.js';
+import loadThemeSpreadSheetConfig from './feature-flags/theme-sheet.js';
+import { decorateSpanTags } from './feature-flags/bracket-tags.js';
+import { isVideoLink } from './utils.js';
+import FEATURES from './feature-flags/features.js';
 
-/** Max sections/children to process (CWE-770). */
+/** Set max sections/children to process (CWE-770). */
 const MAX_SECTIONS = 100;
 const MAX_SECTION_CHILDREN = 200;
 
@@ -88,28 +96,6 @@ export function moveInstrumentation(from, to) {
   );
 }
 
-/**
- * Builds hero block and prepends to main in a new section.
- * @param {Element} main The container element */
-
-/* uncomment if using autoblocking in DA, and add to buildAutoBlocks(main).
-
-function buildHeroBlock(main) {
-  const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
-  // eslint-disable-next-line no-bitwise
-  if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
-    // Check if h1 or picture is already inside a hero block
-    if (h1.closest('.hero') || picture.closest('.hero')) {
-      return; // Don't create a duplicate hero block
-    }
-    const section = document.createElement('div');
-    section.append(buildBlock('hero', { elems: [picture, h1] }));
-    main.prepend(section);
-  }
-}
-*/
-
 /* add a block id_number to a block instance (when any decorate(block) defines it)
   to be used for martech tracking, aria-controls, aria-labelledby, etc.
 */
@@ -126,17 +112,6 @@ export function getBlockId(name) {
 async function loadFonts() {
   await loadCSS(`${window.hlx.codeBasePath}/styles/fonts.css`);
   if (!window.location.hostname.includes('localhost')) sessionStorage.setItem('fonts-loaded', 'true');
-}
-
-function autolinkModals(doc) {
-  doc.addEventListener('click', async (e) => {
-    const origin = e.target.closest('a');
-    if (origin && origin.href && origin.href.includes('/modals/')) {
-      e.preventDefault();
-      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
-      openModal(origin.href);
-    }
-  });
 }
 
 /**
@@ -163,7 +138,22 @@ function buildAutoBlocks(main) {
       });
     }
 
-    // buildHeroBlock(main); uncomment if autoblocking the hero
+    // auto-embed bare YouTube/Vimeo links, wherever they appear — default content, inside another
+    // block's cell, or in a fragment (skip links already inside an authored embed/video block).
+    // decorateBlock/loadBlock are called directly since the embed block may not be at the row/cell
+    // depth decorateBlocks() and loadSections() expect (e.g. nested inside a cards or columns cell).
+    if (FEATURES.videoLinks) {
+      const videoLinks = [...main.querySelectorAll('a[href]')]
+        .filter((a) => !a.closest('.embed, .video') && isVideoLink(a.href));
+      videoLinks.forEach((a) => {
+        const { parentElement } = a;
+        const embedBlock = buildBlock('embed', { elems: [a] });
+        parentElement.replaceWith(embedBlock);
+        decorateBlock(embedBlock);
+        loadBlock(embedBlock);
+      });
+    }
+
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Auto Blocking failed', error);
@@ -299,6 +289,17 @@ function a11yLinks(main) {
   });
 }
 
+function autolinkModals(doc) {
+  doc.addEventListener('click', async (e) => {
+    const origin = e.target.closest('a');
+    if (origin && origin.href && origin.href.includes('/modals/')) {
+      e.preventDefault();
+      const { openModal } = await import(`${window.hlx.codeBasePath}/blocks/modal/modal.js`);
+      openModal(origin.href);
+    }
+  });
+}
+
 /**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
@@ -341,81 +342,9 @@ export function decorateButtons(main) {
 /* === SECTIONS === */
 
 /**
- * Rejects values that could break out of a single CSS declaration when set via inline style.
- * @param {string} value Trimmed color value
- * @returns {boolean}
- */
-function isSafeBackgroundColorValue(value) {
-  if (!value || value.length > 500) return false; // CWE-770
-  if (/[;{}<>\n\r]/.test(value)) return false;
-  return true;
-}
-
-/**
- * Allows https URLs for background images, plus http for localhost during local development.
- * Works with a dynamic media URL too.
- * @param {string} url
- * @returns {boolean}
- */
-function isAllowedBackgroundImageUrl(url) {
-  if (!url || typeof url !== 'string') return false;
-  try {
-    const u = new URL(url.trim(), window.location.href);
-    return u.protocol === 'https:' || (u.protocol === 'http:' && u.hostname === 'localhost');
-  } catch {
-    return false;
-  }
-}
-
-/**
- * First string from metadata (handles single link vs array from readBlockConfig).
- * @param {unknown} value
- * @returns {string}
- */
-function metaStringValue(value) {
-  if (typeof value === 'string') return value;
-  if (Array.isArray(value) && value.length > 0 && typeof value[0] === 'string') return value[0];
-  return '';
-}
-
-/**
- * Sets inline background-color and optionally prepends a decorative .bg-image layer.
- * Keys match section model fields and {@link readBlockConfig}: `background-color`, `background-image`.
- * @param {HTMLElement} section
- * @param {Record<string, unknown>} meta
- */
-function applySectionBackgroundDecorations(section, meta = {}) {
-  const color = metaStringValue(meta['background-color']).trim() || metaStringValue(meta.background).trim();
-  if (color && isSafeBackgroundColorValue(color)) {
-    section.style.setProperty('background', color);
-  }
-
-  const imageUrl = metaStringValue(meta['background-image']).trim();
-  if (!imageUrl || !isAllowedBackgroundImageUrl(imageUrl)) return;
-
-  // localhost never has a valid TLS cert; downgrade https → http so the request succeeds
-  const parsedUrl = new URL(imageUrl.trim(), window.location.href);
-  if (parsedUrl.hostname === 'localhost') parsedUrl.protocol = 'http:';
-  const safeImageUrl = parsedUrl.href;
-
-  const bg = document.createElement('div');
-  bg.className = 'bg-image';
-  const picture = document.createElement('picture');
-  const img = document.createElement('img');
-  img.src = safeImageUrl;
-  img.alt = 'decorative background';
-  img.loading = 'lazy';
-  img.decoding = 'async'; // prevent blocking the main thread
-  picture.append(img);
-  bg.append(picture);
-  section.prepend(bg);
-}
-
-/**
  * Decorates all sections in a container element.
  * @param {Element} main The container element
  */
-/* eslint-disable sonarjs/cognitive-complexity */
 export function decorateSections(main) {
   const sectionEls = main.querySelectorAll(':scope > div');
   const sectionLimit = Math.min(sectionEls.length, MAX_SECTIONS);
@@ -450,7 +379,8 @@ export function decorateSections(main) {
     section.setAttribute('data-section-status', 'initialized');
     section.style.display = 'none';
 
-    // Process section metadata
+    // Process section metadata was removed from adobe/aem-boilerplate but AEMaaCS pipeline requires it
+    // see https://github.com/adobe-rnd/aem-boilerplate-xwalk/pull/95
     const sectionMeta = section.querySelector('div.section-metadata');
     if (sectionMeta) {
       const meta = readBlockConfig(sectionMeta);
@@ -470,432 +400,18 @@ export function decorateSections(main) {
     }
 
     // Apply background decorations from data-* attributes (set via section-metadata or by the platform)
-    applySectionBackgroundDecorations(section, {
-      background: section.getAttribute('data-background') || '',
-      'background-color': section.getAttribute('data-background-color') || '',
-      'background-image': section.getAttribute('data-background-image') || '',
-    });
+    if (FEATURES.sectionBackground) {
+      applySectionBackgroundDecorations(section, {
+        background: section.getAttribute('data-background') || '',
+        'background-color': section.getAttribute('data-background-color') || '',
+        'background-image': section.getAttribute('data-background-image') || '',
+      });
+    }
   }
 }
 
 /* === END SECTIONS === */
 
-/* === BRACKET TAGS ===
- * Bracket syntax: [[class1,class2]text] → <span class="class1 class2">text</span>
- * Nested section syntax: [#section-id] → cloned content from section-metadata ID.
- * Only alphanumeric, hyphen, and underscore are allowed in class names.
- * Malformed patterns (empty class list, invalid chars) are left unchanged.
- * Alignment classes (center, left, right) are hoisted to the containing element
- * instead of applied to a span.
- */
-
-function parseClasses(raw, classNamePattern = /^[a-zA-Z0-9_-]+$/) {
-  const names = raw.split(',').map((c) => c.trim());
-  if (names.some((c) => !c || !classNamePattern.test(c))) return [];
-  return names;
-}
-
-function parseSplitClasses(raw) {
-  return parseClasses(raw, /^[a-z0-9-]+$/);
-}
-
-const SPLIT_INLINE_TAGS = new Set(['STRONG', 'EM', 'A', 'BR']);
-
-const ALIGNMENT_CLASSES = new Set(['center', 'left', 'right']);
-
-const SPAN_TAG_SELECTOR = 'h1, h2, h3, h4, h5, h6, p, li';
-
-const SPLIT_OPEN_RE = /\[\[([a-z0-9,-]+)\]\s*$/;
-
-const SPAN_TAG_RE = /\[\[(?=([^\]]+))\1\](?=([^\]]*))\2\]/g;
-
-const TOOLTIP_OPEN_RE = /\[\[tooltip\]\s*$/;
-
-const NESTED_SECTION_RE = /\[#([^\]]+)\]/g;
-const NESTED_SECTION_ONLY_RE = /^\[#([^\]]+)\]$/;
-
-function normalizeNestedSectionId(value) {
-  if (typeof value !== 'string') return '';
-  return value
-    .trim()
-    .replace(/^#/, '')
-    .replace(/^id\s*=\s*/i, '')
-    .trim();
-}
-
-function collectTextNodes(element, marker) {
-  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  let node = walker.nextNode();
-  while (node) {
-    if (!marker || node.nodeValue.includes(marker)) nodes.push(node);
-    node = walker.nextNode();
-  }
-  return nodes;
-}
-
-function splitAlignmentClasses(classes) {
-  return classes.reduce((groups, c) => {
-    if (ALIGNMENT_CLASSES.has(c)) groups.alignClasses.push(c);
-    else groups.regularClasses.push(c);
-    return groups;
-  }, { alignClasses: [], regularClasses: [] });
-}
-
-function applySplitBoundaryPass(el) {
-  const children = [...el.childNodes];
-
-  for (let i = 0; i < children.length - 2; i += 1) {
-    const prev = children.at(i);
-    const mid = children.at(i + 1);
-    const next = children.at(i + 2);
-
-    const isPrevText = prev.nodeType === Node.TEXT_NODE;
-    const isMidInline = mid.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(mid.nodeName);
-    const isNextText = next.nodeType === Node.TEXT_NODE;
-
-    if (isPrevText && isMidInline && isNextText) {
-      // tooltip branch: [[tooltip]<a href="#" title="...">text</a>]
-      // The <a> is replaced entirely — not wrapped — with a <span data-tooltip="...">.
-      const isTooltipAnchor = mid.nodeName === 'A'
-        && mid.getAttribute('href') === '#'
-        && mid.getAttribute('title');
-      const tooltipCloseMatch = isTooltipAnchor && TOOLTIP_OPEN_RE.test(prev.nodeValue)
-        ? next.nodeValue.match(/^\s*\]/) : null;
-      if (tooltipCloseMatch) {
-        const span = document.createElement('span');
-        span.className = 'tooltip';
-        span.dataset.tooltip = mid.getAttribute('title');
-        span.textContent = mid.textContent;
-        el.insertBefore(span, mid);
-        el.removeChild(mid);
-        prev.nodeValue = prev.nodeValue.replace(TOOLTIP_OPEN_RE, '');
-        next.nodeValue = next.nodeValue.slice(tooltipCloseMatch[0].length);
-      } else {
-        // Pattern A: "prefix[[classes]" <inline>content</inline> "]suffix"
-        const openMatch = prev.nodeValue.match(SPLIT_OPEN_RE);
-        const classes = openMatch ? parseSplitClasses(openMatch[1]) : [];
-        const closeMatch = openMatch && classes.length ? next.nodeValue.match(/^\s*\]/) : null;
-        if (closeMatch) {
-          const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-          if (alignClasses.length) el.classList.add(...alignClasses);
-          prev.nodeValue = prev.nodeValue.slice(0, -openMatch[0].length);
-          next.nodeValue = next.nodeValue.slice(closeMatch[0].length);
-          if (regularClasses.length) {
-            const span = document.createElement('span');
-            span.className = regularClasses.join(' ');
-            span.appendChild(mid);
-            el.insertBefore(span, next);
-          }
-        }
-      }
-    } else if (!isPrevText && mid.nodeType === Node.TEXT_NODE && !isNextText && next.children.length === 0) {
-      // Pattern B: <inline>prefix[[</inline> "classes" <inline>]content]</inline>
-      const isPrevInline = prev.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(prev.nodeName);
-      const isNextInline = next.nodeType === Node.ELEMENT_NODE && SPLIT_INLINE_TAGS.has(next.nodeName);
-      const openerText = prev.textContent;
-      const closerText = next.textContent;
-      const classes = parseSplitClasses(mid.nodeValue);
-      if (isPrevInline && isNextInline && openerText.endsWith('[[') && classes.length
-        && closerText.startsWith(']') && closerText.endsWith(']')) {
-        const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-        if (alignClasses.length) el.classList.add(...alignClasses);
-        next.textContent = closerText.slice(1, -1);
-        if (regularClasses.length) {
-          const insertRef = next.nextSibling;
-          const span = document.createElement('span');
-          span.className = regularClasses.join(' ');
-          span.appendChild(next);
-          el.insertBefore(span, insertRef);
-        }
-        if (openerText === '[[') el.removeChild(prev);
-        else prev.textContent = openerText.slice(0, -2);
-        el.removeChild(mid);
-      }
-    }
-  }
-}
-
-export function applySpanTags(text) {
-  SPAN_TAG_RE.lastIndex = 0;
-  return text.replace(SPAN_TAG_RE, (match, raw, content) => {
-    const classes = parseClasses(raw);
-    if (!classes.length) return match;
-    // eslint-disable-next-line secure-coding/no-improper-sanitization
-    const safe = content
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-    return `<span class="${classes.join(' ')}">${safe}</span>`;
-  });
-}
-
-function replaceTextNode(textNode, containingEl) {
-  const text = textNode.nodeValue;
-  const frag = document.createDocumentFragment();
-  let lastIndex = 0;
-  let match;
-
-  SPAN_TAG_RE.lastIndex = 0;
-
-  // eslint-disable-next-line no-cond-assign
-  while ((match = SPAN_TAG_RE.exec(text)) !== null) {
-    const [full, raw, content] = match;
-    const classes = parseClasses(raw);
-
-    if (match.index > lastIndex) {
-      frag.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
-    }
-
-    if (!classes.length) {
-      frag.appendChild(document.createTextNode(full));
-    } else {
-      const { alignClasses, regularClasses } = splitAlignmentClasses(classes);
-      if (alignClasses.length && containingEl) containingEl.classList.add(...alignClasses);
-      if (regularClasses.length) {
-        const span = document.createElement('span');
-        span.className = regularClasses.join(' ');
-        span.textContent = content;
-        frag.appendChild(span);
-      } else {
-        frag.appendChild(document.createTextNode(content));
-      }
-    }
-
-    lastIndex = match.index + full.length;
-  }
-
-  if (lastIndex === 0) return;
-
-  if (lastIndex < text.length) {
-    frag.appendChild(document.createTextNode(text.slice(lastIndex)));
-  }
-
-  textNode.parentNode.replaceChild(frag, textNode);
-}
-
-function cleanAttributes(element) {
-  element.querySelectorAll('a').forEach((a) => {
-    if (a.hasAttribute('title')) {
-      const cleaned = a.getAttribute('title').replace(SPAN_TAG_RE, '$2');
-      if (cleaned !== a.getAttribute('title')) a.setAttribute('title', cleaned);
-    }
-    if (a.hasAttribute('aria-label')) {
-      const cleaned = a.getAttribute('aria-label')
-        .replace(SPAN_TAG_RE, (_, raw, content) => content)
-        .replace(/\s+/g, ' ')
-        .trim();
-      if (cleaned !== a.getAttribute('aria-label')) a.setAttribute('aria-label', cleaned);
-    }
-  });
-
-  element.querySelectorAll('h1,h2,h3,h4,h5,h6').forEach((heading) => {
-    if (!heading.id) return;
-    const slug = heading.textContent
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^a-z0-9-]/g, '');
-    if (slug !== heading.id) heading.id = slug;
-  });
-}
-
-function hoistAlignmentAcrossInlines(el) {
-  // Handles [[alignment-class]content] where content spans inline elements,
-  // causing the opening [[class] and closing ] to land in different text nodes.
-  const textNodes = collectTextNodes(el);
-
-  for (let i = 0; i < textNodes.length - 1; i += 1) {
-    const node = textNodes[i];
-    const text = node.nodeValue;
-    const openIdx = text.lastIndexOf('[[');
-    if (openIdx === -1) continue; // eslint-disable-line no-continue
-
-    const tail = text.slice(openIdx);
-    // If the bracket expression is fully contained in this node, replaceTextNode handles it
-    if (/^\[\[[^\]]+\][^\]]*\]/.test(tail)) continue; // eslint-disable-line no-continue
-
-    const classMatch = tail.match(/^\[\[([a-zA-Z0-9_,-]+)\]/);
-    if (!classMatch) continue; // eslint-disable-line no-continue
-
-    const classes = parseClasses(classMatch[1]);
-    const { alignClasses } = splitAlignmentClasses(classes);
-    // Only handle pure-alignment spanning patterns; mixed (alignment + span classes) needs Range API
-    if (!alignClasses.length || classes.length !== alignClasses.length) continue; // eslint-disable-line no-continue
-
-    for (let j = i + 1; j < textNodes.length; j += 1) {
-      const closeNode = textNodes[j];
-      const closeText = closeNode.nodeValue;
-      const closeIdx = closeText.indexOf(']');
-      if (closeIdx === -1) continue; // eslint-disable-line no-continue
-
-      el.classList.add(...alignClasses);
-      node.nodeValue = text.slice(0, openIdx) + tail.slice(classMatch[0].length);
-      closeNode.nodeValue = closeText.slice(0, closeIdx) + closeText.slice(closeIdx + 1);
-      break;
-    }
-  }
-}
-
-/* see /docs/span-tags.md */
-export function decorateSpanTags(element) {
-  element.querySelectorAll(SPAN_TAG_SELECTOR).forEach((el) => {
-    if (el.textContent.includes('[[')) hoistAlignmentAcrossInlines(el);
-
-    const nodes = collectTextNodes(el, '[[');
-    nodes.forEach((n) => replaceTextNode(n, el));
-    applySplitBoundaryPass(el);
-  });
-
-  cleanAttributes(element);
-}
-
-/* see /docs/nested-sections.md */
-function collectNestedSectionIds(nodes) {
-  const sectionIds = new Set();
-  nodes.forEach((node) => {
-    let match;
-    NESTED_SECTION_RE.lastIndex = 0;
-    // eslint-disable-next-line no-cond-assign
-    while ((match = NESTED_SECTION_RE.exec(node.nodeValue)) !== null) {
-      const sectionId = normalizeNestedSectionId(match[1]);
-      if (sectionId) sectionIds.add(sectionId);
-    }
-  });
-  return sectionIds;
-}
-
-function getNestedSectionIds(section) {
-  const ids = [
-    normalizeNestedSectionId(section.dataset.id),
-    normalizeNestedSectionId(section.id),
-  ].filter(Boolean);
-
-  section.classList.forEach((className) => {
-    if (className.startsWith('id-')) {
-      const sectionId = normalizeNestedSectionId(className.slice(3));
-      if (sectionId) ids.push(sectionId);
-    }
-  });
-
-  return [...new Set(ids)];
-}
-
-function buildNestedSectionMap(main, sectionIds) {
-  const sectionMap = new Map();
-
-  main.querySelectorAll('.section').forEach((section) => {
-    getNestedSectionIds(section).forEach((sectionId) => {
-      if (!sectionIds.has(sectionId) || sectionMap.has(sectionId)) return;
-
-      const content = document.createElement('div');
-      [...section.children].forEach((child) => {
-        content.appendChild(child.cloneNode(true));
-      });
-      sectionMap.set(sectionId, { content, element: section });
-    });
-  });
-
-  return sectionMap;
-}
-
-function appendNestedSectionContent(fragment, sectionData) {
-  const content = sectionData.content.cloneNode(true);
-  const elements = [...content.children];
-
-  elements.forEach((el) => {
-    const blocks = el.classList.contains('block') ? [el] : [];
-    blocks.push(...el.querySelectorAll('.block'));
-    blocks.forEach((block) => block.classList.add('nested-block'));
-    fragment.appendChild(el);
-  });
-}
-
-function replaceNestedSectionNode(textNode, sectionMap, usedSectionIds) {
-  const text = textNode.nodeValue;
-  const parent = textNode.parentElement;
-  const onlyMatch = text.trim().match(NESTED_SECTION_ONLY_RE);
-
-  if (parent && onlyMatch && parent.textContent.trim() === text.trim()) {
-    const sectionId = normalizeNestedSectionId(onlyMatch[1]);
-    const sectionData = sectionMap.get(sectionId);
-    if (!sectionData) return;
-
-    const fragment = document.createDocumentFragment();
-    appendNestedSectionContent(fragment, sectionData);
-    parent.before(fragment);
-    parent.remove();
-    usedSectionIds.add(sectionId);
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-  let changed = false;
-  let lastIndex = 0;
-  let match;
-
-  NESTED_SECTION_RE.lastIndex = 0;
-  // eslint-disable-next-line no-cond-assign
-  while ((match = NESTED_SECTION_RE.exec(text)) !== null) {
-    const [fullMatch, rawSectionId] = match;
-    const sectionId = normalizeNestedSectionId(rawSectionId);
-    const sectionData = sectionMap.get(sectionId);
-
-    if (match.index > lastIndex) {
-      fragment.appendChild(document.createTextNode(text.slice(lastIndex, match.index)));
-    }
-
-    if (sectionData) {
-      appendNestedSectionContent(fragment, sectionData);
-      usedSectionIds.add(sectionId);
-      changed = true;
-    } else {
-      fragment.appendChild(document.createTextNode(fullMatch));
-    }
-
-    lastIndex = match.index + fullMatch.length;
-  }
-
-  if (!changed) return;
-
-  if (lastIndex < text.length) {
-    fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
-  }
-
-  textNode.replaceWith(fragment);
-}
-
-/**
- * Decorates nested sections by replacing [#section-id] placeholders
- * with the content of sections that have matching IDs in their section-metadata.
- * Only sections that are actually used as placeholders are removed from the page.
- * Runs after decorateSections and decorateBlocks so content is already decorated.
- * @param {Element} main The container element
- */
-function decorateNestedSections(main) {
-  const nodesToProcess = collectTextNodes(main, '[#');
-  if (!nodesToProcess.length) return;
-
-  const sectionIds = collectNestedSectionIds(nodesToProcess);
-  if (!sectionIds.size) return;
-
-  const sectionMap = buildNestedSectionMap(main, sectionIds);
-  if (!sectionMap.size) return;
-
-  const usedSectionIds = new Set();
-  nodesToProcess.forEach((node) => {
-    if (node.isConnected) {
-      replaceNestedSectionNode(node, sectionMap, usedSectionIds);
-    }
-  });
-
-  usedSectionIds.forEach((sectionId) => {
-    sectionMap.get(sectionId)?.element.remove();
-  });
-}
-
-/* === END BRACKET TAGS === */
 
 /**
  * Decorates the main element.
@@ -907,102 +423,11 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
-  decorateNestedSections(main);
+  if (FEATURES.nestedSections) decorateNestedSections(main);
   decorateButtons(main);
   a11yLinks(main);
-  decorateExternalLinks(main);
-  decorateSpanTags(main);
+  if (FEATURES.spanTags) decorateSpanTags(main);
 }
-
-/**
- * Loads a theme spread sheet config.
- * To use, create a design sheet with columns: Property, Value, Section, Block.
- * add column 'design' to the metadata and set it to the path of the design sheet for your page.
- */
-
-/* uncomment if using theme spread sheets
-function addOverlayRule(ruleSet, selector, property, value) {
-  if (!ruleSet.has(selector)) {
-    ruleSet.set(selector, [`--${property}: ${value};`]);
-  } else {
-    ruleSet.get(selector).push(`--${property}: ${value};`);
-  }
-}
-
-async function loadThemeSpreadSheetConfig() {
-  const theme = getMetadata('design');
-  if (!theme) return;
-  // make sure the json files are added to paths.json first
-  const resp = await fetch(`/${theme}.json?offset=0&limit=500`);
-
-  if (resp.status === 200) {
-    // create style element that should be last in the head
-    document.head.insertAdjacentHTML('beforeend', '<style id="style-overrides"></style>');
-    const sheets = window.document.styleSheets;
-    const sheet = sheets.item(sheets.length - 1);
-    // load spreadsheet
-    const json = await resp.json();
-    const tokens = json.data || json.default.data;
-    // go through the entries and create the rule set
-    const ruleSet = new Map();
-    tokens.forEach((e) => {
-      const {
-        Property, Value, Section, Block,
-      } = e;
-      let selector = '';
-      if (Section.length === 0 && Block.length === 0) {
-        // :root { --<property>: <value>; }
-        addOverlayRule(ruleSet, ':root', Property, Value);
-      } else {
-        // define the section selector if set
-        if (Section.length > 0) {
-          selector = `main .section.${Section}`;
-        } else {
-          selector = 'main .section';
-        }
-        // define the block selector if set
-        if (Block.length) {
-          Block.split(',').forEach((entry) => {
-            // eslint-disable-next-line no-param-reassign
-            entry = entry.trim();
-            let blockSelector = selector;
-            // special cases: default wrapper, text, image, button, title
-            switch (entry) {
-              case 'default':
-                blockSelector += ' .default-content-wrapper';
-                break;
-              case 'image':
-                blockSelector += ` .default-content-wrapper img, ${selector} .block.columns img`;
-                break;
-              case 'text':
-                blockSelector += ` .default-content-wrapper p:not(:has(:is(a.button , picture))), ${selector} .columns.block p:not(:has(:is(a.button , picture)))`;
-                break;
-              case 'button':
-                blockSelector += ' .default-content-wrapper a.button';
-                break;
-              case 'title':
-                blockSelector += ` .default-content-wrapper :is(h1,h2,h3,h4,h5,h6), ${selector} .columns.block :is(h1,h2,h3,h4,h5,h6)`;
-                break;
-              default:
-                blockSelector += ` .block.${entry}`;
-            }
-            // main .section.<section-name> .block.<block-name> { --<property>: <value>; }
-            // or any of the spacial cases above
-            addOverlayRule(ruleSet, blockSelector, Property, Value);
-          });
-        } else {
-          // main .section.<section-name> { --<property>: <value>; }
-          addOverlayRule(ruleSet, selector, Property, Value);
-        }
-      }
-    });
-    // finally write the rule sets to the style element
-    ruleSet.forEach((rules, selector) => {
-      sheet.insertRule(`${selector} {${rules.join(';')}}`, sheet.cssRules.length);
-    });
-  }
-}
-*/
 
 /**
  * Loads everything needed to get to LCP.
@@ -1011,7 +436,7 @@ async function loadThemeSpreadSheetConfig() {
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
   decorateTemplateAndTheme();
-  // loadThemeSpreadSheetConfig(); uncomment if using theme spreadsheets
+  if (FEATURES.themeSheet) loadThemeSpreadSheetConfig();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
     doc.body.dataset.breadcrumbs = true;
   }
@@ -1023,7 +448,7 @@ async function loadEager(doc) {
   }
 
   /* if desktop (proxy for fast connection) or fonts already loaded, load fonts.css */
-  if (window.innerWidth >= 900 || sessionStorage.getItem('fonts-loaded')) {
+  if (window.matchMedia('(min-width: 900px)').matches || sessionStorage.getItem('fonts-loaded')) {
     loadFonts();
   }
 }

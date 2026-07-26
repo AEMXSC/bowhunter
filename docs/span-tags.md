@@ -93,7 +93,7 @@ A single space between the class bracket and the content, or before the closing 
 
 ### 2.1 Where the code lives
 
-The system is implemented in the `/* === BRACKET TAGS === */` section of `scripts/scripts.js`. Two functions are exported:
+The system is implemented in `scripts/feature-flags/bracket-tags.js`. Two functions are exported:
 
 | Export | Purpose |
 |--------|---------|
@@ -102,13 +102,16 @@ The system is implemented in the `/* === BRACKET TAGS === */` section of `script
 
 ### 2.2 How it is invoked
 
-`decorateSpanTags` is called from `decorateMain()` so it runs during the eager phase, before the LCP paint:
+`decorateSpanTags` is called from `decorateMain()` so it runs during the eager phase, before the LCP paint. The call is gated by the `spanTags` flag in `scripts/feature-flags/features.js` — set it to `false` to skip this pass entirely for projects that don't use bracket syntax:
 
 ```javascript
 // scripts/scripts.js
+import { decorateSpanTags } from './feature-flags/bracket-tags.js';
+import FEATURES from './feature-flags/features.js';
+
 export function decorateMain(main) {
   // ...
-  decorateSpanTags(main);
+  if (FEATURES.spanTags) decorateSpanTags(main);
 }
 ```
 
@@ -162,13 +165,13 @@ After both passes, a cleanup step strips residual bracket syntax from attributes
 For use when building HTML strings in block decorators rather than transforming existing DOM nodes:
 
 ```javascript
-import { applySpanTags } from '../../scripts/scripts.js';
+import { applySpanTags } from '../../scripts/feature-flags/bracket-tags.js';
 
 const html = applySpanTags('Call [[color-secondary]1-833-4-VYEPTI] for support.');
 // → 'Call <span class="color-secondary">1-833-4-VYEPTI</span> for support.'
 ```
 
-Content is HTML-escaped before insertion. Uses the same `[a-zA-Z0-9_-]+` validation as Pass 1.
+Content is HTML-escaped before insertion. Uses the same `[a-zA-Z0-9_-]+` validation as Pass 1. Since this is a manual, explicit import (not part of the automatic `decorateMain()` pass), it is unaffected by the `spanTags` feature flag.
 
 ### 2.7 Adding new utility classes
 
@@ -176,8 +179,10 @@ Add selectors to `styles/styles.css`. No JS changes are required — any valid c
 
 ```css
 /* styles/styles.css */
-.color-secondary {
+.brand-secondary {
   color: var(--brand-secondary);
   --link-color: var(--brand-secondary);
 }
 ```
+
+## Also see /docs/cell-class.md for applying this bracket tag system within a block cell

@@ -1,4 +1,21 @@
 /**
+ * Collects text nodes under an element, optionally filtered to those containing a marker string.
+ * @param {Element} element
+ * @param {string} [marker]
+ * @returns {Text[]}
+ */
+export function collectTextNodes(element, marker) {
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  let node = walker.nextNode();
+  while (node) {
+    if (!marker || node.nodeValue.includes(marker)) nodes.push(node);
+    node = walker.nextNode();
+  }
+  return nodes;
+}
+
+/**
  * See /docs/cell-class.md
  * Reads single-bracket syntax from the first child of each block cell div.
  * If a cell's first child is <p><code>[classname]</code></p>, the class name
@@ -18,6 +35,34 @@ export function decorateCellClass(block) {
       first.remove();
     });
   });
+}
+
+/**
+ * DOMPurify options for our own internally-built video/social embed markup (embed and video
+ * blocks): same as the shared DOMPURIFY (scripts/aem.js), but additionally allows <iframe> and
+ * the attributes it needs. Only use this for HTML we constructed ourselves from a parsed,
+ * validated URL — never for arbitrary author-authored rich text (e.g. table/quote content),
+ * which must stay on the stricter shared DOMPURIFY.
+ */
+export const EMBED_DOMPURIFY = {
+  USE_PROFILES: { html: true },
+  ADD_TAGS: ['iframe'],
+  ADD_ATTR: ['allow', 'allowfullscreen', 'scrolling', 'loading', 'frameborder'],
+};
+
+const VIDEO_LINK_HOSTS = new Set(['youtube.com', 'www.youtube.com', 'youtu.be', 'vimeo.com', 'www.vimeo.com']);
+
+/**
+ * True if href resolves to a known video host (YouTube, Vimeo).
+ * @param {string} href
+ * @returns {boolean}
+ */
+export function isVideoLink(href) {
+  try {
+    return VIDEO_LINK_HOSTS.has(new URL(href, window.location.href).hostname);
+  } catch {
+    return false;
+  }
 }
 
 /**
