@@ -28,7 +28,7 @@
         {
           "component": "text",
           "name": "url",
-          "label": "FragmentURL Text"
+          "label": "Fragment URL Text"
         }
       ]
     }
