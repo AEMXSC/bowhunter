@@ -1,6 +1,5 @@
 /* eslint-disable secure-coding/no-insecure-comparison
 -- this is browser-side EDS code, not Node server auth logic. Not secret material; public DOM/content metadata validation. */
-
 import {
   loadHeader,
   loadFooter,
@@ -296,7 +295,6 @@ export function decorateSections(main) {
 
 /* === END SECTIONS === */
 
-/* decorateSpanTags and applySpanTags moved to ./feature-flags/bracket-tags.js */
 
 /**
  * Decorates the main element.
