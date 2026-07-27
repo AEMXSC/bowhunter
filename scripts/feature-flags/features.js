@@ -6,6 +6,6 @@ export default {
   sectionBackground: true, // scripts/feature-flags/sections.js — applySectionBackgroundDecorations
   nestedSections: true, // scripts/feature-flags/sections.js — decorateNestedSections, see docs/nested-sections.md
   themeSheet: false, // scripts/feature-flags/theme-sheet.js — loadThemeSpreadSheetConfig
-  spanTags: true, // scripts/feature-flags/bracket-tags.js — decorateSpanTags, see docs/span-tags.md
+  spanTags: true, // scripts/feature-flags/bracket-tags.js — decorateSpanTags, see docs/span-tags.md and docs/cell-class.md
   videoLinks: true, // scripts/scripts.js — buildAutoBlocks auto-embeds bare YouTube/Vimeo links
 };
