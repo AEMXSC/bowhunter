@@ -19,6 +19,7 @@ Your project's description...
 - You can embed a fragment, youtube or vimeo video just by using the URL
 - automatically load a page via a modal just by linking to it in the /modals folder
 - Feature: You can handle CSS themes without touching code by overwriting tokens in a styles sheet in then authoring. (TO DO: document this feature)
+- There is also automatic basic accessibility testing against the "after" URL via github actions on every PR. See /docs/a11y-testing.
 
 ## Installation
 
