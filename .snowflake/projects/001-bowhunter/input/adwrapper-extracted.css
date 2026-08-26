@@ -1,0 +1,69 @@
+.ad-wrapper, .full-width-container {
+  background-color: #f6f5f6;
+  border: 1px solid #e7e6e7;
+  text-align: center;
+  padding: 10px 0;
+  max-width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 112px;
+}
+
+.ad-wrapper .home-video-promo, .full-width-container .home-video-promo {
+  text-align: left;
+}
+
+.advertisement-label, .ad-label {
+  text-align: left;
+  font-size: 0.9rem;
+  line-height: 1em;
+  padding-bottom: 5px;
+}
+
+.ad-wrapper.full-width {
+  position: relative;
+  padding-top: 25px;
+}
+
+.ad-wrapper.full-width .advertisement-label, .ad-wrapper.full-width .ad-label {
+  position: absolute;
+  left: 50%;
+  top: 5px;
+  transform: translateX(-50%);
+}
+
+.mobile-only-ad .ad-label, .mobile-only-ad .advertisement-label, .in-page-ad .ad-label, .in-page-ad .advertisement-label, .center .ad-label, .center .advertisement-label {
+  text-align: center;
+}
+
+.grid-item .ad-wrapper {
+  padding-top: 10%;
+  padding-bottom: 10%;
+}
+
+section.has-grid + .ad-wrapper {
+  margin-top: 20px;
+}
+
+.video-feature-content .content .ad-wrapper {
+  padding: 10%;
+  display: inline-block;
+}
+
+@media only screen and (max-width: 999px) {
+  form > .ad-wrapper:first-of-type {
+      padding-top: 68px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+  .is-sidebar .ad-wrapper:first-of-type {
+      min-height: 320px;
+    }
+}
+
+@media print {
+  #MainNav_MainNavigationControl_magazineMainNavPanel, .ad-wrapper, .has-logos.has-carousel, .is-magazine-sub, .is-newsletter.has-promo, #FooterNavigation_magazineFooterPanel, .page-header, .is-mobile-pager, .is-newsletter, .recommendation-set, .lastest-articles, .social-menu, .print-document, .has-promo, .full-video-small, #reveal, #JSPlaceHolder_videowrapper {
+      display: none !important;
+    }
+}

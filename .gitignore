@@ -17,3 +17,5 @@ Trace*.json
 # Playwright / a11y test artifacts
 playwright-report/
 test-results/
+# Snowflake skill: in-progress run state (committed only on close)
+.snowflake/projects/*/state.json

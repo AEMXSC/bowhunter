@@ -1,0 +1,46 @@
+.buy-issue-wrapper,
+.buy-issue-container {
+  max-width: unset;
+  padding: 0;
+}
+
+.buy-issue-inner {
+  margin: 0 auto;
+  padding: 20px 5vw;
+  max-width: 1296px;
+}
+
+.buy-issue h2 {
+  margin-bottom: 30px;
+}
+
+.buy-issue h3 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  line-height: 1em;
+  font-weight: 300;
+}
+
+.buy-issue .has-icon {
+  max-width: 230px;
+}
+
+.buy-issue p {
+  font-size: 0.95rem;
+}
+
+@media only screen and (max-width: 999px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .buy-issue h3 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+  }
+
+  .buy-issue p {
+    display: none;
+  }
+}

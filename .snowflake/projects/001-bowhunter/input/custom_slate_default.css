@@ -1,0 +1,35 @@
+﻿.amp-error div.akamai-player {
+    background-image: url('Video-Slate.jpg');
+    background-size: cover;
+    display: block;
+}
+
+.amp-error .amp-error-management.amp-overlay {
+    background-image: url('Video-Slate.jpg');
+    background-size: cover;
+    display: block;
+}
+
+.amp-error-alert .amp-error-icon.amp-error-warning {
+    visibility: hidden
+}
+
+.amp-error.amp-error-message {
+    visibility: hidden
+}
+
+/* .akamai-player.akamai-recovery.akamai-slate #amp-error-management-overlay {
+  background-image: url('Video-Slate.jpg');
+  background-size: cover;
+  display: block;
+} */
+
+@media screen and (orientation: portrait) {
+    .akamai-player.akamai-recovery.akamai-slate #amp-error-management-overlay {
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: White;
+        display: block;
+    }
+}

@@ -1,0 +1,209 @@
+[class^=icon-]:before, [class*=" icon-"]:before {
+  font-family: "magazines";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: 0.2em;
+  text-align: center;
+  /* opacity: .8; */
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: 0.2em;
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-search:before {
+  content: "\e800";
+}
+
+.icon-arrow-right:before {
+  content: "\e826";
+}
+
+.icon-refresh:before {
+  content: "\e805";
+}
+
+.icon-search-1:before {
+  content: "\e806";
+}
+
+.icon-arrow-down:before {
+  content: "\e824";
+}
+
+.icon-menu:before {
+  content: "\f008";
+}
+
+.icon-twitter:before {
+  content: "\f799";
+}
+
+.icon-facebook:before {
+  content: "\f09a";
+}
+
+.icon-pinterest-circled:before {
+  content: "\f0d2";
+}
+
+.icon-youtube-play:before {
+  content: "\f16a";
+}
+
+.icon-instagram:before {
+  content: "\f16d";
+}
+
+.icon-up-open-mini:before {
+  content: "\e823";
+  margin-right: 7px;
+}
+
+.btn.btn-full-width .icon-arrow-right {
+  margin-left: auto;
+}
+
+.slicknav_menu .icon-arrow-down {
+  display: none;
+}
+
+.drop-down-menu:not(.mobile-only-drop) .icon-arrow-down {
+  font-size: 0.35rem;
+  position: relative;
+  top: -2px;
+}
+
+.drop-down-menu:not(.mobile-only-drop).sub-nav.quad-nav .icon-arrow-down {
+  font-size: 8px !important;
+}
+
+.page-header .wrapper .drop-down-menu .icon-arrow-down {
+  top: -5px;
+}
+
+.editorial-detail-single h2 .icon-arrow-down {
+  font-size: 0.9rem;
+  position: relative;
+  padding: 0 10px;
+  top: -4px;
+  color: #2c2e32;
+}
+
+.search-bar .icon-search {
+  font-size: 1.25rem;
+}
+
+.has-feature.has-overlay .icon-arrow-right {
+  color: #fff;
+  display: inline-block;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 0px 0px 0px 2px #fff;
+  box-shadow: inset 0px 0px 0px 2px #fff;
+  float: left;
+  margin-right: 10px;
+  height: 48px;
+  width: 48px;
+  padding-left: 3px;
+  line-height: 48px;
+  text-align: center;
+  position: relative;
+  top: 3px;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.has-feature.has-overlay a:hover .icon-arrow-right {
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.gallery-link .icon-arrow-right {
+  margin-left: 5px;
+}
+
+.podcast-listing .watch-now .icon-play, .podcast-listing .watch-now .icon-arrow-right {
+  padding-right: 4px;
+  color: #2c2e32;
+}
+
+.podcast-listing .watch-now .icon-play:before, .podcast-listing .watch-now .icon-arrow-right:before {
+  border-radius: 50%;
+  border: 2px solid #2c2e32;
+  text-align: center;
+  height: 30px;
+  font-size: 14px;
+  padding-left: 3px;
+  width: 30px;
+  line-height: 28px;
+  box-sizing: border-box;
+}
+
+.has-episodes .cta span.icon-arrow-right {
+  color: #2c2e32;
+  border: 2px solid #2c2e32;
+  border-radius: 30px;
+  height: 30px;
+  width: 30px;
+  line-height: 30px;
+  text-align: center;
+  font-size: 15px;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.has-episodes .cta span.icon-arrow-right:before {
+  padding-left: 2px;
+}
+
+@media only screen and (max-width: 999px) {
+  .drop-down-menu.sub-nav.tert-nav ul .icon-arrow-down {
+      display: none;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+  .page-header a.icon-arrow-down {
+      display: none !important;
+    }
+}
+
+#modal-gallery .tray-container.closed .icon-arrow-down:before {
+  content: "\e823";
+}
+
+#modal-gallery .gal-set .icon-arrow-right {
+  position: absolute;
+  right: 10px;
+  top: 35%;
+  transform: translate-y(-50%);
+}

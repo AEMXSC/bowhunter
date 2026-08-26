@@ -1,0 +1,28 @@
+
+/* =========================================================================
+   Source design tokens & base typography — from www.bowhunter.com
+   ========================================================================= */
+
+:root {
+  --bh-brand-red: #9d2227;
+  --bh-ink: #2c2e32;
+  --bh-gray: #717683;
+  --bh-border: #e7e6e7;
+  --bh-link-blue: #086FAA;
+  --bh-bg: #fff;
+}
+
+body {
+  background-color: var(--bh-bg);
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 18px;
+  line-height: 1.4em;
+  font-weight: 500;
+  color: var(--bh-ink);
+}
+
+/* =========================================================================
+   Custom responsive grid system (wrapper / row / col-xs..col-lg / grid)
+   Extracted verbatim from base-bh.css — used by every block on the page.
+   ========================================================================= */
+

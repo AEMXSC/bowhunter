@@ -1,0 +1,203 @@
+{
+  "levelParam": "page",
+  "conversionLevel": "hybrid",
+  "complexityGate": "triggered",
+  "sectionCount": 12,
+  "slottableElementCount": 0,
+  "feasibility": {
+    "recommendation": "hybrid",
+    "sections": [
+      {
+        "name": "ad-adpos_top",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "fail — third-party googletag ad slot, not authorable",
+          "jsIndependence": "fail — depends on global googletag command queue",
+          "visualIndependence": "pass"
+        },
+        "failReason": "Third-party ad unit"
+      },
+      {
+        "name": "latest-articles",
+        "level": "block",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "fail — shares .wrapper.has-grid.lastest-articles with 3 other sections",
+          "contentModel": "pass — repeating article card grid (image, title, category, link)",
+          "jsIndependence": "pass — lazy-load only",
+          "visualIndependence": "pass"
+        }
+      },
+      {
+        "name": "watch-carousel",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "fail — generic .caro.wide engine shared with footer carousel",
+          "contentModel": "fail — carousel/slider widget, aria-hidden slide deck",
+          "jsIndependence": "fail — shared global carousel init across all .caro instances",
+          "visualIndependence": "fail — full-bleed wide layout tied to page chrome"
+        },
+        "failReason": "Shared carousel engine with cross-page JS coupling"
+      },
+      {
+        "name": "recent-videos",
+        "level": "block",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "fail — shares .wrapper.has-grid.lastest-articles with 3 other sections",
+          "contentModel": "pass — repeating video card grid",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        }
+      },
+      {
+        "name": "ad-adpos_bottomB",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "fail — third-party ad slot",
+          "jsIndependence": "fail — global googletag queue",
+          "visualIndependence": "pass"
+        },
+        "failReason": "Third-party ad unit"
+      },
+      {
+        "name": "magazine-subscribe-promo",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "fail — CMS-injected promo keyed by external promo ID, not a fixed content shape",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        },
+        "failReason": "CMS-managed promo widget, not meant to be re-authored"
+      },
+      {
+        "name": "buy-issue",
+        "level": "block",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "pass — icon + heading + text + 2 store buttons, fixed shape",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        }
+      },
+      {
+        "name": "other-magazines",
+        "level": "block",
+        "checks": {
+          "structure": "pass — disambiguated by id FooterMagazineGlobal_getmagazineSection",
+          "cssScope": "fail — shares .wrapper.has-grid.lastest-articles",
+          "contentModel": "pass — repeating product grid",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        }
+      },
+      {
+        "name": "special-interest-magazines",
+        "level": "block",
+        "checks": {
+          "structure": "pass — disambiguated by id FooterMagazineGlobal_specialinterestSection",
+          "cssScope": "fail — shares .wrapper.has-grid.lastest-articles",
+          "contentModel": "pass — repeating product grid",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        }
+      },
+      {
+        "name": "ad-adpos_bottom",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "fail — third-party ad slot",
+          "jsIndependence": "fail — global googletag queue",
+          "visualIndependence": "pass"
+        },
+        "failReason": "Third-party ad unit"
+      },
+      {
+        "name": "logo-carousel",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "fail — shared .caro carousel engine",
+          "contentModel": "fail — decorative cross-promo logo carousel",
+          "jsIndependence": "fail — same shared carousel init as watch-carousel",
+          "visualIndependence": "fail"
+        },
+        "failReason": "Shared carousel engine with cross-page JS coupling"
+      },
+      {
+        "name": "newsletter-signup",
+        "level": "fragment",
+        "checks": {
+          "structure": "pass",
+          "cssScope": "pass",
+          "contentModel": "fail — form posts to a CMS-configured endpoint (data-request-from/data-request-website-id), not reconstructable outside that CMS",
+          "jsIndependence": "pass",
+          "visualIndependence": "pass"
+        },
+        "failReason": "CMS-wired signup form with no working backend outside the source CMS",
+        "note": "Missed in the initial Phase 2 pass — its opening <section> tag spans two lines, so the single-line structural-map regex didn't catch it. Found during Phase 3 while extracting fragment markup; sectionCount corrected from 11 to 12."
+      }
+    ]
+  },
+  "templateName": "bowhunter",
+  "synthesizeMain": true,
+  "headerBoundary": { "startLine": 730, "endLine": 860, "note": "body-open attrs + <header class=masthead> + nav + sticky search/subscribe bar" },
+  "footerBoundary": { "startLine": 2229, "endLine": 2523, "note": "<footer> + trailing .disclaimer-text legal-links section" },
+  "firstClassCollisions": [
+    {
+      "class": "wrapper has-grid lastest-articles clearfix",
+      "instances": ["latest-articles", "recent-videos", "other-magazines", "special-interest-magazines"],
+      "disambiguators": {
+        "other-magazines": "id=FooterMagazineGlobal_getmagazineSection",
+        "special-interest-magazines": "id=FooterMagazineGlobal_specialinterestSection",
+        "latest-articles": "h2 eyebrow text 'Latest Articles'",
+        "recent-videos": "h2 eyebrow text 'Recent Videos'"
+      }
+    },
+    {
+      "class": "ad-wrapper full-width",
+      "instances": ["ad-adpos_top", "ad-adpos_bottomB", "ad-adpos_bottom"],
+      "disambiguators": { "all": "child div id (adpos_top / adpos_bottomB / adpos_bottom)" }
+    }
+  ],
+  "blockSections": [
+    { "name": "latest-articles", "blockType": "article-grid", "originalTag": "section" },
+    { "name": "recent-videos", "blockType": "article-grid", "originalTag": "section" },
+    { "name": "buy-issue", "blockType": "buy-issue", "originalTag": "section" },
+    { "name": "other-magazines", "blockType": "magazine-product-grid", "originalTag": "section" },
+    { "name": "special-interest-magazines", "blockType": "magazine-product-grid", "originalTag": "section" }
+  ],
+  "fragmentSections": [
+    { "name": "ad-adpos_top", "reason": "third-party ad unit" },
+    { "name": "watch-carousel", "reason": "shared carousel engine" },
+    { "name": "ad-adpos_bottomB", "reason": "third-party ad unit" },
+    { "name": "magazine-subscribe-promo", "reason": "CMS promo widget" },
+    { "name": "ad-adpos_bottom", "reason": "third-party ad unit" },
+    { "name": "logo-carousel", "reason": "shared carousel engine" },
+    { "name": "newsletter-signup", "reason": "CMS-wired signup form, no reconstructable backend" }
+  ],
+  "headLinks": [
+    { "rel": "stylesheet", "href": "https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,600" }
+  ],
+  "inlineStyleLines": [404, 420],
+  "inlineScriptLines": [],
+  "externalLibs": [
+    { "name": "jquery", "js": "https://code.jquery.com/jquery-3.2.1.min.js", "strategy": "cdn" },
+    { "name": "vue", "js": "https://cdn.jsdelivr.net/npm/vue@2.6.14", "strategy": "cdn" },
+    { "name": "font-awesome", "css": "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css", "strategy": "cdn" },
+    { "name": "modernizr", "js": "js/vendor/modernizr-3.5.0.min.js", "strategy": "vendor" }
+  ],
+  "assetStrategy": "absolute",
+  "assetBase": "https://www.bowhunter.com/",
+  "strip": []
+}

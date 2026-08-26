@@ -1,0 +1,69 @@
+{
+  "definitions": [
+    {
+      "title": "Buy Issue",
+      "id": "buy-issue",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Buy Issue",
+              "model": "buy-issue"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "buy-issue",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "value": "",
+          "label": "Section heading"
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "icon",
+          "label": "App icon",
+          "multi": false
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "subheading",
+          "value": "",
+          "label": "Subheading (supports a line break)"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "value": "",
+          "label": "Label above the store buttons"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "appleLink",
+          "value": "",
+          "label": "Apple App Store badge (image link)"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "googleLink",
+          "value": "",
+          "label": "Google Play badge (image link)"
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

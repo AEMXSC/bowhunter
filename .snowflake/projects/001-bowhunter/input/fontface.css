@@ -1,0 +1,7 @@
+@font-face {
+  font-family: "magazines";
+  src: url("https://www.bowhunter.com/magazine/font/magazines.eot?20240214");
+  src: url("https://www.bowhunter.com/magazine/font/magazines.eot?20240214#iefix") format("embedded-opentype"), url("https://www.bowhunter.com/magazine/font/magazines.woff2?20240214") format("woff2"), url("https://www.bowhunter.com/magazine/font/magazines.woff?20240214") format("woff"), url("https://www.bowhunter.com/magazine/font/magazines.ttf?20240214") format("truetype"), url("https://www.bowhunter.com/magazine/font/magazines.svg?20240214#magazines") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}

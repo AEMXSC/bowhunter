@@ -1,0 +1,79 @@
+.newsletter-signup-wrapper,
+.newsletter-signup-container {
+  max-width: unset;
+  padding: 0;
+}
+
+.single-article.has-right-col-layout .is-newsletter.has-promo {
+  background-color: #e7e6e7;
+}
+
+.single-article.has-right-col-layout .is-newsletter.has-promo h2, .single-article.has-right-col-layout .is-newsletter.has-promo h3 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+.editorial-detail .is-newsletter.in-read, .editorial-detail .advertisement.after-article, .editorial-detail .article-related-videos {
+  margin-top: 0px;
+  margin-bottom: 30px;
+}
+
+.ad-wrapper, .full-width-container {
+  background-color: #f6f5f6;
+  border: 1px solid #e7e6e7;
+  text-align: center;
+  padding: 10px 0;
+  max-width: 100%;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  min-height: 112px;
+}
+
+.ad-wrapper .home-video-promo, .full-width-container .home-video-promo {
+  text-align: left;
+}
+
+.is-newsletter h3 {
+  margin-top: 0px;
+  color: #303135;
+  margin-bottom: 5px;
+  font-weight: 300;
+  line-height: 1.2em;
+}
+
+.is-newsletter h3 em {
+  line-height: 1em;
+  text-transform: none;
+}
+
+.is-newsletter p {
+  margin: 0 0 30px 0;
+}
+
+.is-newsletter.in-read {
+  margin: 15px auto;
+  padding: 0;
+  background-color: #fff;
+  border: 0;
+}
+
+.is-newsletter.in-read .wrapper {
+  padding: 2rem;
+}
+
+.is-newsletter .wrapper.narrow {
+  display: inline-block;
+}
+
+@media only screen and (min-width: 1024px) {
+  #article-wrap.one-article article .is-newsletter.in-read .row {
+      margin-left: -0.5rem;
+    }
+}
+
+@media print {
+  #MainNav_MainNavigationControl_magazineMainNavPanel, .ad-wrapper, .has-logos.has-carousel, .is-magazine-sub, .is-newsletter.has-promo, #FooterNavigation_magazineFooterPanel, .page-header, .is-mobile-pager, .is-newsletter, .recommendation-set, .lastest-articles, .social-menu, .print-document, .has-promo, .full-video-small, #reveal, #JSPlaceHolder_videowrapper {
+      display: none !important;
+    }
+}

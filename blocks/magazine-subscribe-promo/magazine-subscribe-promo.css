@@ -1,0 +1,105 @@
+.magazine-subscribe-promo-wrapper,
+.magazine-subscribe-promo-container {
+  max-width: unset;
+  padding: 0;
+}
+
+.single-article.has-right-col-layout .is-newsletter.has-promo {
+  background-color: #e7e6e7;
+}
+
+.single-article.has-right-col-layout .is-newsletter.has-promo h2, .single-article.has-right-col-layout .is-newsletter.has-promo h3 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+.has-promo {
+  padding: 0;
+}
+
+.has-promo h2, .has-promo h3 {
+  font-size: 2.5rem;
+  margin-top: 20px;
+  margin-bottom: 0;
+  font-weight: 300;
+  border-bottom: 0;
+  color: #2c2e32;
+  padding-bottom: 0;
+  line-height: 0.9em;
+}
+
+.has-promo h2 em, .has-promo h3 em {
+  font-weight: 300;
+}
+
+.has-promo p {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.has-promo .btn {
+  margin-bottom: 0;
+}
+
+.has-promo.is-magazine-sub .narrow.wrapper {
+  padding-bottom: 0;
+}
+
+.has-promo.is-magazine-sub .narrow.wrapper .has-cover {
+  text-align: right;
+}
+
+.has-promo.is-magazine-sub .narrow.wrapper .has-cover img {
+  width: 100%;
+  max-width: 380px;
+  height: 308px;
+  object-fit: cover;
+  object-position: 0 0;
+}
+
+.is-newsletter .wrapper.narrow {
+  display: inline-block;
+}
+
+@media only screen and (max-width: 999px) {
+  .is-magazine-sub .has-cover {
+      display: none;
+    }
+
+  .has-promo input {
+      margin-bottom: 20px;
+    }
+}
+
+@media only screen and (max-width: 1023px) {
+  .has-promo.is-magazine-sub .narrow.wrapper {
+      padding-bottom: 60px;
+    }
+
+  .has-promo.is-magazine-sub .narrow.wrapper h2, .has-promo.is-magazine-sub .narrow.wrapper h3 {
+      margin-top: 0;
+    }
+}
+
+@media only screen and (min-width: 1000px) {
+  .has-promo .row .col-lg-6:last-of-type {
+      padding-left: 20px;
+    }
+
+  .wrapper.narrow {
+      padding: 30px 15vw;
+    }
+}
+
+@media only screen and (min-width: 1300px) {
+  .wrapper.narrow {
+      padding: 30px 22vw;
+    }
+}
+
+@media print {
+  #MainNav_MainNavigationControl_magazineMainNavPanel, .ad-wrapper, .has-logos.has-carousel, .is-magazine-sub, .is-newsletter.has-promo, #FooterNavigation_magazineFooterPanel, .page-header, .is-mobile-pager, .is-newsletter, .recommendation-set, .lastest-articles, .social-menu, .print-document, .has-promo, .full-video-small, #reveal, #JSPlaceHolder_videowrapper {
+      display: none !important;
+    }
+}

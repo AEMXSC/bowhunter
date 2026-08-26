@@ -60,7 +60,10 @@
       "id": "section",
       "components": [
         "accordion",
+        "ad-slot",
+        "article-grid",
         "button",
+        "buy-issue",
         "cards",
         "carousel",
         "columns",
@@ -69,6 +72,10 @@
         "form",
         "hero",
         "image",
+        "logo-carousel",
+        "magazine-product-grid",
+        "magazine-subscribe-promo",
+        "newsletter-signup",
         "quote",
         "search",
         "section-title",
@@ -76,7 +83,9 @@
         "table",
         "text",
         "title",
-        "video"
+        "video",
+        "video-grid",
+        "watch-carousel"
       ]
     }
   ]
