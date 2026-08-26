@@ -29,7 +29,7 @@ export default function decorate(block) {
   textCol.className = 'col-xs-8 col-sm';
   if (subhead) {
     const h3 = document.createElement('h3');
-    h3.innerHTML = subhead.innerHTML;
+    h3.append(...[...subhead.childNodes].map((n) => n.cloneNode(true)));
     textCol.append(h3);
   }
   if (label) {

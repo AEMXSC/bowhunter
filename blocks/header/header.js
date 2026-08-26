@@ -1,3 +1,6 @@
+import { ensureDOMPurify } from '../../scripts/scripts.js';
+import { DOMPURIFY } from '../../scripts/aem.js';
+
 /**
  * Loads the site header fragment from the code bus.
  * Overlay-controlled (page-level) pages set main.dataset.overlay = <template>
@@ -14,5 +17,7 @@ export default async function decorate(block) {
     console.warn(`[header] fragment not found at ${path}`);
     return;
   }
-  block.innerHTML = await resp.text();
+  const html = await resp.text();
+  await ensureDOMPurify();
+  block.innerHTML = window.DOMPurify.sanitize(html, DOMPURIFY);
 }
