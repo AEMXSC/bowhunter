@@ -2,3 +2,4 @@ helix-importer-ui
 *.min.js
 scripts/*-animations.js
 experiments/
+.snowflake/

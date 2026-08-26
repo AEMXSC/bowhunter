@@ -23,7 +23,7 @@ export default [
     },
   },
   {
-    ignores: ['**/*.mjs','**/*.cjs','helix-importer-ui/**', '**/*.min.js', 'scripts/aem.js', 'tools/**/*', 'playwright.config.js', 'tests/a11y/', 'ue/models/component-models.json'],
+    ignores: ['**/*.mjs','**/*.cjs','helix-importer-ui/**', '**/*.min.js', 'scripts/aem.js', 'tools/**/*', 'playwright.config.js', 'tests/a11y/', 'ue/models/component-models.json', '.snowflake/**'],
   },
   // json.configs.recommended uses the legacy plugin format; translate inline for flat config
   {

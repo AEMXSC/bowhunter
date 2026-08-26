@@ -18,7 +18,6 @@ import {
   loadScript,
   buildBlock,
 } from './aem.js';
-import { applyTemplateOverlay } from './overlay-engine.js';
 import { applySectionBackgroundDecorations, decorateNestedSections } from './feature-flags/sections.js';
 import loadThemeSpreadSheetConfig from './feature-flags/theme-sheet.js';
 import { decorateSpanTags } from './feature-flags/bracket-tags.js';
@@ -442,10 +441,6 @@ async function loadEager(doc) {
     doc.body.dataset.breadcrumbs = true;
   }
   const main = doc.querySelector('main');
-  if (main && await applyTemplateOverlay(main)) {
-    document.body.classList.add('appear');
-    return;
-  }
   if (main) {
     decorateMain(main);
     document.body.classList.add('appear');

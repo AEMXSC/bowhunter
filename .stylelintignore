@@ -6,3 +6,20 @@ styles/*.css
 !styles/fonts.css
 !styles/lazy-styles.css
 experiments/
+.snowflake/
+
+# Block CSS extracted verbatim from www.bowhunter.com's source stylesheet
+# (snowflake conversion) — vendor-prefixed and legacy selectors preserved
+# for visual fidelity, not massaged to satisfy modern stylelint rules.
+styles/bowhunter-vendor.css
+blocks/header/header.css
+blocks/footer/footer.css
+blocks/article-grid/article-grid.css
+blocks/video-grid/video-grid.css
+blocks/buy-issue/buy-issue.css
+blocks/magazine-product-grid/magazine-product-grid.css
+blocks/ad-slot/ad-slot.css
+blocks/watch-carousel/watch-carousel.css
+blocks/magazine-subscribe-promo/magazine-subscribe-promo.css
+blocks/logo-carousel/logo-carousel.css
+blocks/newsletter-signup/newsletter-signup.css
