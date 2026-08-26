@@ -1,0 +1,51 @@
+{
+  "definitions": [
+    {
+      "title": "Magazine Product Grid",
+      "id": "magazine-product-grid",
+      "model": "magazine-product-grid",
+      "filter": "magazine-product-grid",
+      "plugins": {
+        "da": {
+          "name": "magazine-product-grid",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    },
+    {
+      "title": "Magazine Product Grid Item",
+      "id": "magazine-product-grid-item",
+      "model": "magazine-product-grid-item",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 3,
+          "fields": [
+            {
+              "name": "image",
+              "selector": "div:nth-child(1)"
+            },
+            {
+              "name": "title",
+              "selector": "div:nth-child(2)"
+            },
+            {
+              "name": "btnLabel",
+              "selector": "div:nth-child(3)"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "filters": [
+    {
+      "id": "magazine-product-grid",
+      "components": [
+        "magazine-product-grid-item"
+      ]
+    }
+  ],
+  "models": []
+}

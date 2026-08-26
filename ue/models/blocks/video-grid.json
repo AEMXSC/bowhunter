@@ -1,0 +1,55 @@
+{
+  "definitions": [
+    {
+      "title": "Video Grid",
+      "id": "video-grid",
+      "model": "video-grid",
+      "filter": "video-grid",
+      "plugins": {
+        "da": {
+          "name": "video-grid",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    },
+    {
+      "title": "Video Grid Item",
+      "id": "video-grid-item",
+      "model": "video-grid-item",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            {
+              "name": "image",
+              "selector": "div:nth-child(1)"
+            },
+            {
+              "name": "category",
+              "selector": "div:nth-child(2)"
+            },
+            {
+              "name": "title",
+              "selector": "div:nth-child(3)"
+            },
+            {
+              "name": "excerpt",
+              "selector": "div:nth-child(4)"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "filters": [
+    {
+      "id": "video-grid",
+      "components": [
+        "video-grid-item"
+      ]
+    }
+  ],
+  "models": []
+}

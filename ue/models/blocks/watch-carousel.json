@@ -1,0 +1,17 @@
+{
+  "definitions": [
+    {
+      "title": "Watch Carousel",
+      "id": "watch-carousel",
+      "plugins": {
+        "da": {
+          "name": "watch-carousel",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    }
+  ],
+  "filters": [],
+  "models": []
+}

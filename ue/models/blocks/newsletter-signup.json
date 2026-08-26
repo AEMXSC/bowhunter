@@ -1,0 +1,17 @@
+{
+  "definitions": [
+    {
+      "title": "Newsletter Signup",
+      "id": "newsletter-signup",
+      "plugins": {
+        "da": {
+          "name": "newsletter-signup",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    }
+  ],
+  "filters": [],
+  "models": []
+}

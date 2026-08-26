@@ -1,0 +1,17 @@
+{
+  "definitions": [
+    {
+      "title": "Logo Carousel",
+      "id": "logo-carousel",
+      "plugins": {
+        "da": {
+          "name": "logo-carousel",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    }
+  ],
+  "filters": [],
+  "models": []
+}

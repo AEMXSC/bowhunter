@@ -1,0 +1,44 @@
+{
+  "definitions": [
+    {
+      "title": "Buy Issue",
+      "id": "buy-issue",
+      "model": "buy-issue",
+      "plugins": {
+        "da": {
+          "name": "buy-issue",
+          "rows": 6,
+          "columns": 1,
+          "fields": [
+            {
+              "name": "heading",
+              "selector": "div:nth-child(1)>div"
+            },
+            {
+              "name": "icon",
+              "selector": "div:nth-child(2)>div"
+            },
+            {
+              "name": "subheading",
+              "selector": "div:nth-child(3)>div"
+            },
+            {
+              "name": "label",
+              "selector": "div:nth-child(4)>div"
+            },
+            {
+              "name": "appleLink",
+              "selector": "div:nth-child(5)>div"
+            },
+            {
+              "name": "googleLink",
+              "selector": "div:nth-child(6)>div"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "filters": [],
+  "models": []
+}

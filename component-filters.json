@@ -23,13 +23,30 @@
       "tabs",
       "table",
       "text",
-      "video"
+      "video",
+      "ad-slot",
+      "article-grid",
+      "button",
+      "buy-issue",
+      "logo-carousel",
+      "magazine-product-grid",
+      "magazine-subscribe-promo",
+      "newsletter-signup",
+      "title",
+      "video-grid",
+      "watch-carousel"
     ]
   },
   {
     "id": "accordion",
     "components": [
       "accordion-item"
+    ]
+  },
+  {
+    "id": "article-grid",
+    "components": [
+      "article-grid-item"
     ]
   },
   {
@@ -53,7 +70,8 @@
   {
     "id": "columns",
     "components": [
-      "columns-row"
+      "columns-row",
+      "column"
     ]
   },
   {
@@ -68,6 +86,12 @@
     ]
   },
   {
+    "id": "magazine-product-grid",
+    "components": [
+      "magazine-product-grid-item"
+    ]
+  },
+  {
     "id": "table",
     "rte": {
       "toolbar": {
@@ -78,12 +102,52 @@
           "insert"
         ]
       }
-    }
+    },
+    "components": [
+      "table-row"
+    ]
   },
   {
     "id": "tabs",
     "components": [
       "tabs-item"
     ]
+  },
+  {
+    "id": "video-grid",
+    "components": [
+      "video-grid-item"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
+    ]
+  },
+  {
+    "id": "table-2-columns",
+    "components": [
+      "table-col-2"
+    ]
+  },
+  {
+    "id": "table-3-columns",
+    "components": [
+      "table-col-3"
+    ]
+  },
+  {
+    "id": "table-4-columns",
+    "components": [
+      "table-col-4"
+    ]
+  },
+  {
+    "id": "video",
+    "components": []
   }
 ]

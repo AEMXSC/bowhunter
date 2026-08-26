@@ -1,0 +1,24 @@
+{
+  "definitions": [
+    {
+      "title": "Ad Slot",
+      "id": "ad-slot",
+      "model": "ad-slot",
+      "plugins": {
+        "da": {
+          "name": "ad-slot",
+          "rows": 1,
+          "columns": 1,
+          "fields": [
+            {
+              "name": "positionId",
+              "selector": "div:nth-child(1)>div"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "filters": [],
+  "models": []
+}

@@ -1,0 +1,55 @@
+{
+  "definitions": [
+    {
+      "title": "Article Grid",
+      "id": "article-grid",
+      "model": "article-grid",
+      "filter": "article-grid",
+      "plugins": {
+        "da": {
+          "name": "article-grid",
+          "rows": 0,
+          "columns": 0
+        }
+      }
+    },
+    {
+      "title": "Article Grid Item",
+      "id": "article-grid-item",
+      "model": "article-grid-item",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 4,
+          "fields": [
+            {
+              "name": "image",
+              "selector": "div:nth-child(1)"
+            },
+            {
+              "name": "category",
+              "selector": "div:nth-child(2)"
+            },
+            {
+              "name": "title",
+              "selector": "div:nth-child(3)"
+            },
+            {
+              "name": "author",
+              "selector": "div:nth-child(4)"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "filters": [
+    {
+      "id": "article-grid",
+      "components": [
+        "article-grid-item"
+      ]
+    }
+  ],
+  "models": []
+}
