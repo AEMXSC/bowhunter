@@ -12,8 +12,6 @@ experiments/
 # (snowflake conversion) — vendor-prefixed and legacy selectors preserved
 # for visual fidelity, not massaged to satisfy modern stylelint rules.
 styles/bowhunter-vendor.css
-blocks/header/header.css
-blocks/footer/footer.css
 blocks/article-grid/article-grid.css
 blocks/video-grid/video-grid.css
 blocks/buy-issue/buy-issue.css

@@ -1,199 +1,108 @@
-.footer-wrapper,
-.footer-container {
-  max-width: unset;
-  padding: 0;
-}
-
-article,
-aside,
-footer,
-header,
-nav,
-section {
-  display: block;
-}
-
 footer {
-  font-size: 1rem;
-}
-
-footer ul, footer ul li {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-footer .footer-links ul li {
-  width: 100%;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  line-height: 2rem;
-}
-
-footer .social-links li {
-  display: inline-block;
-  font-size: 1.25rem;
-  padding: 10px 5px;
-}
-
-footer h2 {
-  margin-top: 25px;
-  margin-bottom: 15px;
-  color: #2c2e32;
-  text-transform: uppercase;
-}
-
-footer a {
-  color: #086FAA;
-}
-
-footer .social-links a {
-  color: #717683;
-}
-
-.disclaimer-text {
-  background-color: #2c2e32;
-  color: #fff;
+  background-color: var(--bh-ink, #2c2e32);
+  color: #e7e6e7;
   font-size: 0.9rem;
 }
 
-.disclaimer-text a {
-  opacity: 0.7;
+footer .footer {
+  max-width: 1296px;
+  margin: 0 auto;
+  padding: 40px 20px 20px;
+}
+
+footer a:any-link {
+  color: #e7e6e7;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--bh-brand-red, #9d2227);
+}
+
+footer img {
+  height: 28px;
+  width: auto;
+}
+
+/* Default-content authoring flattens nested <div> groupings inside a
+   section — only the top-level section divs survive (one per source
+   "---" break: main content vs. legal links; real DOM depth is
+   footer.block > div > div.section > div.default-content-wrapper).
+   Everything inside a section (logo, social list, h2/ul column pairs)
+   ends up as flat siblings, so columns are simulated with CSS
+   multi-column flow rather than a grid over authored wrapper divs. */
+footer .section:nth-of-type(1) .default-content-wrapper {
+  column-count: 4;
+  column-gap: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #4a4c50;
+}
+
+footer .section:nth-of-type(1) .default-content-wrapper > * {
+  break-inside: avoid;
+}
+
+footer .section:nth-of-type(1) .default-content-wrapper > p:first-child {
+  margin-top: 0;
+}
+
+footer h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: #fff;
-  -moz-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  backface-visibility: hidden;
+  margin: 20px 0 12px;
 }
 
-.disclaimer-text a:hover {
-  opacity: 1;
-  -moz-transition: all 0.3s;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  -webkit-backface-visibility: hidden;
-  -moz-backface-visibility: hidden;
-  -ms-backface-visibility: hidden;
-  backface-visibility: hidden;
+footer .section:nth-of-type(1) .default-content-wrapper > h2:first-of-type {
+  margin-top: 0;
 }
 
-.disclaimer-text ul, .disclaimer-text ul li {
-  margin: 0;
+footer ul {
+  list-style: none;
+  margin: 0 0 12px;
   padding: 0;
-  list-style-type: none;
 }
 
-.disclaimer-text ul li {
-  display: inline-block;
-  padding-right: 20px;
+footer li {
+  margin-bottom: 8px;
 }
 
-.disclaimer-text .copyright {
-  opacity: 0.7;
+/* social icons — default-content strips the source's icon <span> classes,
+   so icons are matched by link target instead of an authored class. */
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type {
+  display: flex;
+  gap: 14px;
+  margin: 16px 0 24px;
 }
 
-.disclaimer-text .wrapper {
-  padding-top: 60px;
-  padding-bottom: 60px;
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a {
+  font-size: 0;
 }
 
-.disclaimer-text .privacy-links {
-  padding-bottom: 15px;
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a::before {
+  font-family: magazines, sans-serif;
+  font-size: 1.25rem;
 }
 
-.modal-wrapper .modal-header,
-.modal-wrapper .modal-body,
-.modal-wrapper .modal-footer {
-  padding: 2rem;
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a[href*='facebook.com']::before { content: '\f09a'; }
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a[href*='twitter.com']::before { content: '\f799'; }
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a[href*='instagram.com']::before { content: '\f16d'; }
+footer .section:nth-of-type(1) .default-content-wrapper > ul:first-of-type a[href*='pinterest.com']::before { content: '\f0d2'; }
+
+/* legal row (second section) */
+footer .section:nth-of-type(2) ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 
-.modal-wrapper .modal-header,
-.modal-wrapper .modal-footer {
-  background-color: #f6f5f6;
+footer .section:nth-of-type(2) li {
+  margin-bottom: 0;
 }
 
-a.to-top {
-  position: fixed;
-  bottom: 80px;
-  right: 5vw;
-  z-index: 5;
-  background-color: #9d2227;
-  color: #fff;
-  padding: 10px 15px;
-  border-radius: 5px;
-  font-size: 0.5rem;
-  display: none;
-}
-
-@media only screen and (max-width: 767px) {
-  footer .footer-links {
-      text-align: left;
-    }
-
-  footer .footer-links ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-  footer .footer-links ul li {
-      width: 50%;
-      float: left;
-      flex-grow: 1;
-      line-height: 1.2em;
-      padding-bottom: 10px;
-    }
-}
-
-@media only screen and (min-width: 1024px) {
-  footer {
-      text-align: left;
-    }
-
-  footer .footer-links {
-      padding-left: 80px;
-    }
-
-  footer .footer-links ul li {
-      width: 100%;
-    }
-
-  footer .footer-links .two-col ul li {
-      width: 50%;
-      float: left;
-    }
-
-  footer .footer-links .col-md-6, footer .footer-links .col-lg-6 {
-      padding-right: 30px;
-      padding-bottom: 30px;
-    }
-
-  footer .social-links {
-      border-right: 1px solid #e7e6e7;
-    }
-
-  footer .social-links ul {
-      margin-top: 25px;
-    }
-
-  footer .social-links a {
-      font-size: 1.75rem;
-    }
-
-  footer .wrapper {
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-
-  footer h2 {
-      margin-top: -15px;
-      margin-bottom: 15px;
-    }
-
-  footer .col {
-      padding-top: 75px;
-      padding-bottom: 30px;
-    }
+footer .section:nth-of-type(2) p {
+  font-size: 0.8rem;
+  padding-top: 16px;
+  margin: 0;
 }
