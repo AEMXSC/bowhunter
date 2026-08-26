@@ -8,8 +8,10 @@ import { loadFragment } from '../fragment/fragment.js';
 export default async function decorate(block) {
   // load footer as fragment
   const footerMeta = getMetadata('footer');
-  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-  const fragment = await loadFragment(footerPath);
+  const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/content/footer';
+  let fragment = await loadFragment(footerPath);
+  // fallback for root-served content (DA/EDS production serves footer at site root)
+  if (!fragment) fragment = await loadFragment('/footer');
 
   // decorate footer DOM
   block.textContent = '';

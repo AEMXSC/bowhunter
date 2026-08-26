@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "http://localhost:8899/magazine.html",
+  "path": "magazine/bowhunter-current-issue",
+  "timestamp": "2026-08-26T01:52:43.978Z",
+  "title": "Current Issue of Bowhunter Magazine | Subscribe Now - Bowhunter",
+  "template": "magazine",
+  "blocks": [
+    "hero",
+    "hero",
+    "cards",
+    "columns",
+    "columns"
+  ]
+}

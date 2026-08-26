@@ -1,0 +1,32 @@
+{
+  "status": "success",
+  "url": "http://localhost:8899/listing.html",
+  "path": "listing/bowhunting",
+  "timestamp": "2026-08-26T01:55:40.203Z",
+  "title": "All Hunting Articles - Bowhunter",
+  "template": "listing",
+  "blocks": [
+    "section-title",
+    "section-title",
+    "section-title",
+    "section-title",
+    "section-title",
+    "section-title",
+    "section-title",
+    "section-title",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "cards",
+    "columns",
+    "columns",
+    "carousel",
+    "form"
+  ]
+}

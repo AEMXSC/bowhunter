@@ -1,22 +1,107 @@
 @import url('./footer-tokens.css');
 
-footer { /* @boilerplate */
-  background-color: var(--light-color); /* @boilerplate */
-  font-size: var(--body-font-size-xs); /* @boilerplate */
+footer {
+  background-color: var(--dark-color);
+  color: #fff;
+  font-size: var(--body-font-size-xs);
 }
 
-footer .footer > div { /* @boilerplate */
-  margin: auto; /* @boilerplate */
-  max-width: var(--footer-max-width); /* @boilerplate */
-  padding: var(--footer-padding); /* @boilerplate */
+footer .footer > div {
+  margin: auto;
+  max-width: var(--footer-max-width);
+  padding: var(--footer-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
 }
 
-footer .footer p { /* @boilerplate */
-  margin: 0; /* @boilerplate */
+footer .footer p {
+  margin: 0;
 }
 
-@media (width >= 900px) { /* @boilerplate */
-  footer .footer > div { /* @boilerplate */
-    padding: var(--footer-padding-desktop); /* @boilerplate */
+/* logo (first section) */
+footer .footer img {
+  height: 40px;
+  width: auto;
+}
+
+/* link columns: the section whose children are the column groups (each has an h3).
+   Lay the direct child divs out as a responsive row. */
+footer .footer .section:has(h3) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-xl);
+}
+
+footer .footer .section:has(h3) > div {
+  flex: 1 1 150px;
+  min-width: 150px;
+}
+
+footer .footer h3 {
+  margin: 0 0 var(--spacing-s);
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+}
+
+footer .footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer li {
+  margin: 0 0 var(--spacing-xs);
+  line-height: 1.5;
+}
+
+footer .footer a {
+  color: #d8d4cd;
+  text-decoration: none;
+}
+
+footer .footer a:hover {
+  color: var(--brand-primary);
+  text-decoration: none;
+}
+
+/* legal / copyright row (last section: a horizontal list of legal links + copyright) */
+footer .footer .section:last-child .default-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-s);
+  border-top: 1px solid rgb(255 255 255 / 15%);
+  padding-top: var(--spacing-m);
+}
+
+footer .footer .section:last-child ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-m);
+}
+
+footer .footer .section:last-child p {
+  color: #9a958c;
+}
+
+@media (width >= 900px) {
+  footer .footer > div {
+    padding: var(--footer-padding-desktop);
+  }
+
+  /* keep the four link columns on one row at desktop */
+  footer .footer .section:has(h3) {
+    flex-wrap: nowrap;
+  }
+
+  /* legal links + copyright inline on desktop */
+  footer .footer .section:last-child .default-content-wrapper {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 }

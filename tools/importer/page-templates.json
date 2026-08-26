@@ -1,0 +1,182 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "home",
+      "urls": [
+        "http://localhost:8899/home.html"
+      ],
+      "description": "Bowhunter homepage \u2014 issue promo hero, featured video, latest-articles card grid, watch tiles, recent-videos strip, magazine/subscription promos, other-magazines grid, partner-logo carousel, newsletter signup. Source: www.bowhunter.com/",
+      "blocks": [
+        {
+          "name": "section-latest-articles",
+          "instances": [
+            "section.wrapper.has-grid.lastest-articles.clearfix:not(.has-prods-container)"
+          ],
+          "section": "light"
+        },
+        {
+          "name": "hero",
+          "instances": [
+            "#MainContent_HomePageArticles_homepage_right_rail .row.mini-promo"
+          ]
+        },
+        {
+          "name": "video",
+          "instances": [
+            "#MainContent_HomePageArticles_homepage_right_rail .is-fixed"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#grid-0001",
+            "section .caro.wide.feature",
+            "section#FooterMagazineGlobal_getmagazineSection .row.has-prods.has-mags",
+            "#FooterMagazineGlobal_specialinterestSection .row.has-prods.has-mags"
+          ]
+        },
+        {
+          "name": "card-carousel",
+          "instances": [
+            ".video-grid"
+          ]
+        },
+        {
+          "name": "section-magazine-sub",
+          "instances": [
+            "section.has-promo.is-magazine-sub"
+          ],
+          "section": "highlight"
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "section.has-promo.is-magazine-sub .row",
+            "section.wrapper.buy-issue .row.middle-sm"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            "section.has-logos.has-carousel .caro.multi"
+          ]
+        },
+        {
+          "name": "section-newsletter",
+          "instances": [
+            "section.full-width-container.is-newsletter.has-promo"
+          ],
+          "section": "dark"
+        },
+        {
+          "name": "form",
+          "instances": [
+            "section.is-newsletter .row"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "article",
+      "urls": [
+        "http://localhost:8899/article.html"
+      ],
+      "description": "Editorial article \u2014 all default content: headline (h1), byline (author + date \u2192 page metadata), category, hero image with caption, body paragraphs with subheads and inline captioned images, author's note. Source: www.bowhunter.com/editorial/10-acre-property-wisconsin-giant/390409",
+      "blocks": []
+    },
+    {
+      "name": "listing",
+      "urls": [
+        "http://localhost:8899/listing.html"
+      ],
+      "description": "Category/listing page \u2014 category heading (h1) plus 8 grouped sections (Whitetail, Big Game, Turkeys, Bowfishing, Other Game, How-To, Stories, Podcasts), each a section-title + cards grid + 'See All' link. Followed by shared footer promos. Source: www.bowhunter.com/listing/bowhunting/153182",
+      "blocks": [
+        {
+          "name": "section-title",
+          "instances": [
+            "section.wrapper.has-grid.lastest-articles.no-padding-top.clearfix .col-xs-12.col-sm-8.col-md-9 > div.row h2.subhead"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "section.wrapper.has-grid.lastest-articles.no-padding-top.clearfix .col-xs-12.col-sm-8.col-md-9 > div.row",
+            "section#FooterMagazineGlobal_getmagazineSection .row.has-prods.has-mags",
+            "#FooterMagazineGlobal_specialinterestSection .row.has-prods.has-mags"
+          ]
+        },
+        {
+          "name": "section-magazine-sub",
+          "instances": [
+            "section.has-promo.is-magazine-sub"
+          ],
+          "section": "highlight"
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "section.has-promo.is-magazine-sub .row",
+            "section.wrapper.buy-issue .row.middle-sm"
+          ]
+        },
+        {
+          "name": "carousel",
+          "instances": [
+            "section.has-logos.has-carousel .caro.multi"
+          ]
+        },
+        {
+          "name": "section-newsletter",
+          "instances": [
+            "section.full-width-container.is-newsletter.has-promo"
+          ],
+          "section": "dark"
+        },
+        {
+          "name": "form",
+          "instances": [
+            "section.is-newsletter .row"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "magazine",
+      "urls": [
+        "http://localhost:8899/magazine.html"
+      ],
+      "description": "The Magazine current-issue landing \u2014 featured issue story hero (cover + label + headline + intro), 'More Inside This Issue' cards, subscribe & save promo columns, buy digital single issues columns. Source: www.bowhunter.com/magazine/bowhunter-current-issue/451705",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "main.single-article .whats-inside"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "main.single-article .more-inside"
+          ]
+        },
+        {
+          "name": "section-magazine-sub",
+          "instances": [
+            "section.has-promo.is-magazine-sub"
+          ],
+          "section": "highlight"
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "section.has-promo.is-magazine-sub .row",
+            "section.wrapper.buy-issue .row.middle-sm"
+          ]
+        }
+      ]
+    }
+  ]
+}

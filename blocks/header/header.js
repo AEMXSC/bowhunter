@@ -181,8 +181,10 @@ async function buildBreadcrumbs() {
 export default async function decorate(block) {
   // load nav as fragment
   const navMeta = getMetadata('nav');
-  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/nav';
-  const fragment = await loadFragment(navPath);
+  const navPath = navMeta ? new URL(navMeta, window.location).pathname : '/content/nav';
+  let fragment = await loadFragment(navPath);
+  // fallback for root-served content (DA/EDS production serves nav at site root)
+  if (!fragment) fragment = await loadFragment('/nav');
 
   // decorate nav DOM
   block.textContent = '';
