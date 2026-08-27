@@ -149,7 +149,11 @@
   background-size: cover;
   width: 1296px;
   max-width: 100%;
-  opacity: 0.15;
+  /* Same dead rule as watch-carousel.css (duplicated vendor extraction) —
+     this file loads globally, so its opacity:0.15 was winning the cascade
+     tie over watch-carousel.css's own fix. Not used by logo-carousel's own
+     markup (.caro.multi), but must match to avoid re-dimming .caro.wide. */
+  opacity: 1;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #2c2e32;
