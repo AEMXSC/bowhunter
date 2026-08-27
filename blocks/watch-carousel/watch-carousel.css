@@ -149,7 +149,10 @@
   background-size: cover;
   width: 1296px;
   max-width: 100%;
-  opacity: 0.15;
+  /* Source opacity:0.15 was the Slick.js "inactive slide" state, made
+     visible only via .slick-current below. This port has no slide-switching
+     JS, so every item must render at full opacity or it stays dimmed forever. */
+  opacity: 1;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   background-color: #2c2e32;

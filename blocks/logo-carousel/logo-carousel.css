@@ -503,6 +503,14 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0 auto;
+  /* Source site laid this row out via Flickity JS (.flickity-slider); this
+     port has no carousel JS, so the container needs its own flex-wrap to
+     arrange .caro-item at the widths already defined below, instead of
+     each one stacking full-width. */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .has-logos .caro.multi .slick-prev {
@@ -957,6 +965,14 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin: 0 auto;
+  /* Source site laid this row out via Flickity JS (.flickity-slider); this
+     port has no carousel JS, so the container needs its own flex-wrap to
+     arrange .caro-item at the widths already defined below, instead of
+     each one stacking full-width. */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .has-logos .caro.multi .slick-prev {
