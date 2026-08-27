@@ -272,3 +272,4 @@ export default () => {
   setupObservers();
   setupUEEventHandlers();
 };
+

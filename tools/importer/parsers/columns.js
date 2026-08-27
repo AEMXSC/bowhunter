@@ -44,3 +44,4 @@ export default function parse(element, { document }) {
   const block = WebImporter.Blocks.createBlock(document, { name: 'columns', cells });
   element.replaceWith(block);
 }
+

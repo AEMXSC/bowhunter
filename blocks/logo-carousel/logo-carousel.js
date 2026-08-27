@@ -13,3 +13,4 @@ export default async function decorate(block) {
   await ensureDOMPurify();
   block.innerHTML = window.DOMPurify.sanitize(html, DOMPURIFY);
 }
+

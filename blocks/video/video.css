@@ -71,3 +71,4 @@
   left: calc(50% + var(--video-placeholder-play-left-offset)); /* @boilerplate */
   transform: translate(-50%, -50%); /* @boilerplate */
 }
+

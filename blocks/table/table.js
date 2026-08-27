@@ -41,3 +41,4 @@ export default async function decorate(block) {
   table.append(thead, tbody);
   block.replaceChildren(table);
 }
+

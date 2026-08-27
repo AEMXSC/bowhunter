@@ -49,3 +49,4 @@ export default function parse(element, { document }) {
   const block = WebImporter.Blocks.createBlock(document, { name: 'form', cells });
   element.replaceWith(block);
 }
+

@@ -45,3 +45,4 @@ if (sk) {
     attachSidekickListeners(document.querySelector('aem-sidekick'));
   }, { once: true });
 }
+

@@ -105,3 +105,4 @@ export default async function decorate(block) {
     observer.observe(block);
   }
 }
+

@@ -276,3 +276,4 @@ export function createSliderControls(slideCount, options = {}) {
 export function initSlider(block, options = {}) {
   bindEvents(block, { ...DEFAULT_OPTIONS, ...options });
 }
+

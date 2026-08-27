@@ -168,3 +168,4 @@ export default async function decorate(block) {
   ensureTablistClickDelegation(block, tablist);
   resyncTabsBlock(block);
 }
+

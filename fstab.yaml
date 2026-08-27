@@ -6,3 +6,4 @@ mountpoints:
   /:
     url: https://content.da.live/AEMXSC/bowhunter
     type: markup
+

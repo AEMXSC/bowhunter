@@ -145,3 +145,4 @@ export function getVimeoEmbedHtml(url, autoplay = false, background = false) {
 <iframe src="${src}" style="${IFRAME_STYLE}" frameborder="0" allow="${allow}" allowfullscreen title="Content from Vimeo" loading="lazy"></iframe>
 </div>`;
 }
+

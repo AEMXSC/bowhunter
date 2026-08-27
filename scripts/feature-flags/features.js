@@ -9,3 +9,4 @@ export default {
   spanTags: true, // scripts/feature-flags/bracket-tags.js — decorateSpanTags, see docs/span-tags.md and docs/cell-class.md
   videoLinks: true, // scripts/scripts.js — buildAutoBlocks auto-embeds bare YouTube/Vimeo links
 };
+

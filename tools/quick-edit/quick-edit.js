@@ -54,3 +54,4 @@ export default function init(payload) {
   addImportmap();
   loadModule(origin, payload || generateSidekickPayload());
 }
+

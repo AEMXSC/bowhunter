@@ -23,3 +23,4 @@ export default function decorate(block) {
   slot.className = 'ad-slot-placeholder';
   block.append(slot);
 }
+

@@ -48,3 +48,4 @@ export default function decorate(block) {
   section.append(row);
   block.append(section);
 }
+

@@ -27,3 +27,4 @@
   aspect-ratio: var(--cards-image-aspect-ratio); /* @boilerplate */
   object-fit: var(--cards-image-object-fit); /* @boilerplate */
 }
+

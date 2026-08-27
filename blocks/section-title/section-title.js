@@ -476,3 +476,4 @@ export default function decorate(block) {
   if (!hasValue(state.titleText) && !state.titleHeadingEl) return;
   renderSectionTitle(block, state);
 }
+

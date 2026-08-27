@@ -76,3 +76,4 @@ export function activateTabPanel(blockEl, panelEl) {
     blockEl.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'instant' });
   });
 }
+

@@ -170,3 +170,4 @@
 .form .toggle-wrapper input:checked + .slider::before { /* @boilerplate */
   transform: translateX(var(--form-toggle-slider-translate)); /* @boilerplate */
 }
+
