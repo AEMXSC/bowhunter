@@ -8,6 +8,12 @@
 
 body {
   display: none;
+
+  /* Fallback: reveal after 2s even if scripts.js never adds .appear (e.g.
+     a host environment like the DA canvas editor that doesn't run the full
+     page lifecycle JS the same way production does). Normal case: .appear
+     is added within milliseconds, well before this fires. */
+  animation: bh-force-reveal 0s 2s forwards;
   background-color: var(--bh-bg);
   font-family: "Source Sans Pro", sans-serif;
   font-size: 18px;
@@ -18,6 +24,12 @@ body {
 
 body.appear {
   display: block;
+}
+
+@keyframes bh-force-reveal {
+  to {
+    display: block;
+  }
 }
 
 /* Section visibility lifecycle used by aem.js decorateSections when
@@ -39,11 +51,21 @@ main .section[data-section-status="initialized"] {
 header > .header,
 footer > .footer {
   visibility: hidden;
+
+  /* Same fallback as body above — reveal after 2s regardless of
+     data-block-status if the loading JS never completes. */
+  animation: bh-force-reveal-visibility 0s 2s forwards;
 }
 
 header > .header[data-block-status="loaded"],
 footer > .footer[data-block-status="loaded"] {
   visibility: visible;
+}
+
+@keyframes bh-force-reveal-visibility {
+  to {
+    visibility: visible;
+  }
 }
 
 /* Reset padding/margin on the EDS landmark <header>/<footer> elements.
