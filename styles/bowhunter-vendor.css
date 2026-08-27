@@ -2435,6 +2435,7 @@ nav.sidebar-nav ul li a:hover {
     }
 
   .grid.default-grid.four-wide {
+      display: grid;
       -ms-grid-columns: 1fr, 1fr, 1fr, 1fr;
       grid-template-columns: minmax(238px, 1fr) minmax(238px, 1fr) minmax(238px, 1fr) minmax(238px, 1fr);
     }
@@ -2495,6 +2496,7 @@ nav.sidebar-nav ul li a:hover {
     }
 
   .grid.default-grid.five-wide {
+      display: grid;
       -ms-grid-columns: 1fr, 1fr, 1fr, 1fr, 1fr;
       grid-template-columns: minmax(238px, 1fr) minmax(238px, 1fr) minmax(238px, 1fr) minmax(238px, 1fr) minmax(238px, 1fr);
     }
@@ -3521,4 +3523,5 @@ h3 a:not(.tag):hover {
   top: 35%;
   transform: translate-y(-50%);
 }
+
 
