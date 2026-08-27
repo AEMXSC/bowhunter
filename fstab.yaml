@@ -1,0 +1,8 @@
+# Document Authoring (DA) mount. Content is authored in da.live/AEMXSC/bowhunter,
+# renders at main--bowhunter--aemxsc.aem.page, and is UE-editable at
+# main--bowhunter--aemxsc.ue.da.live. Matches the working aemxsc DA sites
+# (e.g. citizens). Component palette comes from component-definition.json.
+mountpoints:
+  /:
+    url: https://content.da.live/AEMXSC/bowhunter
+    type: markup
